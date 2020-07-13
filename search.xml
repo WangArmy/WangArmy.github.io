@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>MPI基本函数</title>
+    <url>/2020/07/10/MPI%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="MPI基本函数"><a href="#MPI基本函数" class="headerlink" title="MPI基本函数"></a>MPI基本函数</h1><h4 id="int-MPI-Init-int-argc-p-char-argv-p"><a href="#int-MPI-Init-int-argc-p-char-argv-p" class="headerlink" title="int MPI_Init(int* argc_p, char *** argv_p)"></a>int MPI_Init(int* argc_p, char *** argv_p)</h4><ul>
+<li>通常情况，第一个被调用的MPI函数，用于并行环境初始化</li>
+<li>除<code>MPI_Initialized()</code>之外，其余所有的MPI函数应该在其后调用</li>
+<li>MPI系统通过<strong>argc</strong>和<strong>argv</strong>得到命令行参数(main函数必须带参数)</li>
+</ul>
+<h4 id="int-MPI-Finalize-void"><a href="#int-MPI-Finalize-void" class="headerlink" title="int MPI_Finalize(void)"></a>int MPI_Finalize(void)</h4><ul>
+<li>退出MPI系统，<strong>所有进程</strong>正常退出都必须调用。表明并行代码的结束，结束所有子程序</li>
+<li>串行代码仍可在主进程上运行，但是不能再有MPI函数</li>
+</ul>
+<h4 id="int-MPI-Comm-size-MPI-Comm-comm-int-comm-sz-p"><a href="#int-MPI-Comm-size-MPI-Comm-comm-int-comm-sz-p" class="headerlink" title="int MPI_Comm_size(MPI_Comm comm, int* comm_sz_p)"></a>int MPI_Comm_size(MPI_Comm comm, int* comm_sz_p)</h4><ul>
+<li>获得进程个数<strong>comm_sz_p</strong></li>
+<li>指定一个通信子，也指定了一组共享该空间的进程，这些进程组成该通信子的组</li>
+<li>获得通信子<strong>comm</strong>中规定的组包含的进程的数量</li>
+</ul>
+<h4 id="int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p"><a href="#int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p" class="headerlink" title="int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)"></a>int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)</h4><ul>
+<li>得到本进程在通信空间中的rank值，即在组中的逻辑编号(0,p-1)，相当于<strong>进程ID</strong></li>
+</ul>
+<h4 id="MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator"><a href="#MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator" class="headerlink" title="MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)"></a>MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)</h4><ul>
+<li><strong>msg_buf_p :</strong>  你要发送的变量</li>
+<li><strong>msg_size :</strong>  你要发送的消息的个数</li>
+<li><strong>msg_type :</strong>  你要发送的数据类型</li>
+<li><strong>dest :</strong>  目的进程号</li>
+<li><strong>tag :</strong>  消息标签，接收方需要有相同标签才能接收消息</li>
+<li><strong>communicator :</strong>  通信域，表示你要向哪个组发送消息</li>
+</ul>
+<h4 id="int-MPI-Recv-void-msg-buf-p-int-buf-size-MPI-Datatype-buf-type-int-source-int-tag-MPI-Comm-communicator-MPI-Status-status-p"><a href="#int-MPI-Recv-void-msg-buf-p-int-buf-size-MPI-Datatype-buf-type-int-source-int-tag-MPI-Comm-communicator-MPI-Status-status-p" class="headerlink" title="int MPI_Recv(void* msg_buf_p, int buf_size, MPI_Datatype buf_type, int source, int tag, MPI_Comm communicator, MPI_Status* status_p)"></a>int MPI_Recv(void* msg_buf_p, int buf_size, MPI_Datatype buf_type, int source, int tag, MPI_Comm communicator, MPI_Status* status_p)</h4><ul>
+<li><strong>mag_buf_p :</strong>  接受缓冲区</li>
+<li><strong>buf_size :</strong>  接受数据长度的上界，具体的接受到的长度可用<code>MPI_Get_count</code>函数得到</li>
+<li><strong>buf_type :</strong>  你接受的数据类型</li>
+<li><strong>source :</strong>  接收端进程号，你需要哪个进程接受消息，就填写接收进程的进程号</li>
+<li><strong>tag :</strong>  消息标签，需要与发送方的tag值相同的消息标签才能接受该消息</li>
+<li><strong>communicator :</strong>  通信域</li>
+<li><strong>status_p :</strong>  消息状态。接收函数返回时，将在这个参数指示的变量中存储实际接受消息的状态，包括<strong>MPI_SOURCE</strong>、<strong>MPI_TAG</strong>、<strong>MPI_ERROR</strong></li>
+</ul>
+<h5 id="int-MPI-Initialized-int-flag"><a href="#int-MPI-Initialized-int-flag" class="headerlink" title="int MPI_Initialized(int* flag)"></a>int MPI_Initialized(int* flag)</h5><ul>
+<li><strong>flag :</strong>  指示是否调用<code>MPI_Init()</code>，若调用则为<strong>true</strong>，否则为<strong>false</strong></li>
+</ul>
+<h5 id="int-MPI-Get-count-MPI-Status-status-p-MPI-Datatype-type-int-count-p"><a href="#int-MPI-Get-count-MPI-Status-status-p-MPI-Datatype-type-int-count-p" class="headerlink" title="int MPI_Get_count(MPI_Status* status_p, MPI_Datatype type, int* count_p)"></a>int MPI_Get_count(MPI_Status* status_p, MPI_Datatype type, int* count_p)</h5><ul>
+<li><strong>status :</strong>  消息的状态</li>
+<li><strong>type :</strong>  接收数据的类型</li>
+<li><strong>count_p :</strong> 实际接收数据个数</li>
+</ul>
+<h5 id="MPI-Datatype"><a href="#MPI-Datatype" class="headerlink" title="MPI_Datatype"></a>MPI_Datatype</h5><table>
+<thead>
+<tr>
+<th align="left">MPI datatype</th>
+<th align="left">C datatype</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MPI_CHAR</td>
+<td align="left">signed <strong>char</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_SHORT</td>
+<td align="left">signed <strong>short in</strong>t</td>
+</tr>
+<tr>
+<td align="left">MPI_INT</td>
+<td align="left">signed <strong>int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_LONG</td>
+<td align="left">signed <strong>long int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_LONG_LONG</td>
+<td align="left">signed <strong>long long int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_UNSIGNED_CHAR</td>
+<td align="left">unsigned <strong>char</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_UNSIGNED_SHORT</td>
+<td align="left">unsigned <strong>short int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_UNSIGNED</td>
+<td align="left">unsigned <strong>int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_UNSIGNED_LONG</td>
+<td align="left">unsigned <strong>long int</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_FLOAT</td>
+<td align="left"><strong>float</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_DOUBLE</td>
+<td align="left"><strong>double</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_LONG_DOUBLE</td>
+<td align="left"><strong>long double</strong></td>
+</tr>
+<tr>
+<td align="left">MPI_BYTE</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">MPI_PACKED</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+]]></content>
+  </entry>
+  <entry>
+    <title>你好</title>
+    <url>/2020/07/13/%E4%BD%A0%E5%A5%BD/</url>
+    <content><![CDATA[<h1 id="小程，欢迎你！！！"><a href="#小程，欢迎你！！！" class="headerlink" title="小程，欢迎你！！！"></a><center>小程，欢迎你！！！</center></h1>]]></content>
+  </entry>
+</search>
