@@ -110,6 +110,13 @@
 </tr>
 </tbody></table>
 ]]></content>
+      <categories>
+        <category>并行计算</category>
+      </categories>
+      <tags>
+        <tag>MPI</tag>
+        <tag>函数</tag>
+      </tags>
   </entry>
   <entry>
     <title>你好</title>
