@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>你好</title>
-    <url>/2020/07/15/hello/</url>
-    <content><![CDATA[<h1 id="小程，欢迎你！！！"><a href="#小程，欢迎你！！！" class="headerlink" title="小程，欢迎你！！！"></a><center>小程，欢迎你！！！</center></h1><a id="more"></a>
-<p><img src="0.jpg" alt="alt"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>MPI基本函数</title>
     <url>/2020/07/10/MPI%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id="MPI基本函数"><a href="#MPI基本函数" class="headerlink" title="MPI基本函数"></a>MPI基本函数</h1><h2 id="int-MPI-Init-int-argc-p-char-argv-p"><a href="#int-MPI-Init-int-argc-p-char-argv-p" class="headerlink" title="int MPI_Init(int* argc_p, char *** argv_p)"></a>int MPI_Init(int* argc_p, char *** argv_p)</h2><ul>
@@ -27,7 +20,7 @@
 <h2 id="int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p"><a href="#int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p" class="headerlink" title="int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)"></a>int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)</h2><ul>
 <li>得到本进程在通信空间中的rank值，即在组中的逻辑编号(0,p-1)，相当于<strong>进程ID</strong></li>
 </ul>
-<h2 id="MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator"><a href="#MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator" class="headerlink" title="MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)"></a>MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)</h2><ul>
+<h2 id="int-MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator"><a href="#int-MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator" class="headerlink" title="int MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)"></a>int MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)</h2><ul>
 <li><strong>msg_buf_p :</strong>  你要发送的变量</li>
 <li><strong>msg_size :</strong>  你要发送的消息的个数</li>
 <li><strong>msg_type :</strong>  你要发送的数据类型</li>
@@ -124,5 +117,12 @@
         <tag>MPI</tag>
         <tag>函数</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>你好</title>
+    <url>/2020/07/15/hello/</url>
+    <content><![CDATA[<h1 id="小程，欢迎你！！！"><a href="#小程，欢迎你！！！" class="headerlink" title="小程，欢迎你！！！"></a><center>小程，欢迎你！！！</center></h1><a id="more"></a>
+<p><img src="0.jpg" alt="alt"></p>
+]]></content>
   </entry>
 </search>
