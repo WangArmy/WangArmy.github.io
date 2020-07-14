@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>你好</title>
+    <url>/2020/07/13/%E4%BD%A0%E5%A5%BD/</url>
+    <content><![CDATA[<h1 id="小程，欢迎你！！！"><a href="#小程，欢迎你！！！" class="headerlink" title="小程，欢迎你！！！"></a><center>小程，欢迎你！！！</center></h1>]]></content>
+  </entry>
+  <entry>
     <title>MPI基本函数</title>
     <url>/2020/07/10/MPI%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id="MPI基本函数"><a href="#MPI基本函数" class="headerlink" title="MPI基本函数"></a>MPI基本函数</h1><h4 id="int-MPI-Init-int-argc-p-char-argv-p"><a href="#int-MPI-Init-int-argc-p-char-argv-p" class="headerlink" title="int MPI_Init(int* argc_p, char *** argv_p)"></a>int MPI_Init(int* argc_p, char *** argv_p)</h4><ul>
@@ -117,10 +122,5 @@
         <tag>MPI</tag>
         <tag>函数</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>你好</title>
-    <url>/2020/07/13/%E4%BD%A0%E5%A5%BD/</url>
-    <content><![CDATA[<h1 id="小程，欢迎你！！！"><a href="#小程，欢迎你！！！" class="headerlink" title="小程，欢迎你！！！"></a><center>小程，欢迎你！！！</center></h1>]]></content>
   </entry>
 </search>
