@@ -1852,7 +1852,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffd2fe;
+  background: #538150;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2748,4 +2748,15 @@ embed {
 }
 .vpower.txt-right {
   display: none;
+}
+.sidebar {
+  background: url("/images/sidebar.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.sidebar p,
+.sidebar span,
+.sidebar a {
+  color: #fff;
 }
