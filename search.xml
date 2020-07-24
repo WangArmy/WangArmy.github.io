@@ -113,7 +113,7 @@
 <code>communicator</code>：通信子，表示在该通信组内传输消息<br>
 <code>status_p</code>：消息状态。接受函数返回后，将在这个参数指示的变量中存储实际接受消息的状态，包括<code>MPI_SOURCE</code>、<code>MPI_TAG</code>、<code>MPI_ERROR</code></p>
 <ul>
-<li>接受到的数据量可以通过函数<a href="#jump3"><code>MPI_Get_count</code></a>得到</li>
+<li>接受到的数据量可以通过函数<code>MPI_Get_count</code>得到</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Get_count</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*    status_p <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype   type     <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>*           count_p  <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
 <h4 id="关于MPI-Send和MPI-Recv"><a class="header-anchor" href="#关于MPI-Send和MPI-Recv">¶</a>关于MPI_Send和MPI_Recv</h4>
@@ -124,7 +124,7 @@
 <li>如果<code>MPI_Send</code>发生阻塞，且没有相匹配的接受，那么发送进程会悬挂起来；若被缓冲，但没有匹配的接受，那么消息将丢失。</li>
 </ul>
 <h2 id="补充"><a class="header-anchor" href="#补充">¶</a>补充</h2>
-<h3 id="span-id-jump1-MPI-Datatype-span"><a class="header-anchor" href="#span-id-jump1-MPI-Datatype-span">¶</a><span id="jump1">MPI_Datatype</span></h3>
+<h3 id="span-id-jump1-MPI-Datatype-span"><a class="header-anchor" href="#span-id-jump1-MPI-Datatype-span">¶</a><span id="jump1"><a href="#jump2">MPI_Datatype</a></span></h3>
 <table>
 <thead>
 <tr>
@@ -191,7 +191,6 @@
 </tr>
 </tbody>
 </table>
-<p><a href="#jump2">BACK</a></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
