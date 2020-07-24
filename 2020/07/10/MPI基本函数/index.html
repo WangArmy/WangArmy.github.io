@@ -122,7 +122,7 @@
 <meta property="og:description" content="前言   分布式内存系统，顾名思义，是由多个处理器(CPU)组成，每个处理器可以位于不同的计算机上，并且都有各自私有的内存。   MPI(Message-Passing Interface)，是运行在分布式计算机系统上的并行应用程序所使用的最流行的通信协议。它不是一种新的语言，它定义了可以被C、C++和Fortran程序调用的函数库。   在消息传递程序[1]中， 运行在一个 核 - 内存 对上的">
 <meta property="og:image" content="https://junw.wang/2020/07/10/MPI%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/hello.png">
 <meta property="article:published_time" content="2020-07-10T15:05:09.520Z">
-<meta property="article:modified_time" content="2020-07-24T16:50:27.519Z">
+<meta property="article:modified_time" content="2020-07-24T16:54:16.660Z">
 <meta property="article:author" content="Jun Wang">
 <meta property="article:tag" content="MPI">
 <meta property="article:tag" content="函数">
@@ -424,13 +424,13 @@
       
 
       
-        <h1>前言</h1>
+        <h1><center>前言</center></h1>
 <p>  <strong>分布式内存系统</strong>，顾名思义，是由多个处理器(CPU)组成，每个处理器可以位于不同的计算机上，并且都有各自私有的内存。<br>
   <strong>MPI</strong>(Message-Passing Interface)，是运行在分布式计算机系统上的并行应用程序所使用的最流行的通信协议。它不是一种新的语言，它定义了可以被C、C++和Fortran程序调用的函数库。<br>
   在消息传递程序<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>中， 运行在一个 核 - 内存 对上的程序统称为一个进程。两个进程可以通过调用函数来进行通信：一个进程调用发送函数，一个进程调用接受函数，该通信方式的实现即为MPI。</p>
 <a id="more"></a>
-<h1>基础</h1>
-<h2 id="编译执行"><a class="header-anchor" href="#编译执行">¶</a>编译执行</h2>
+<h1><center>基础</center></h1>
+<h2 id="center-编译执行-center"><a class="header-anchor" href="#center-编译执行-center">¶</a><center>编译执行</center></h2>
 <h3 id="使用mpicc命令来编译程序"><a class="header-anchor" href="#使用mpicc命令来编译程序">¶</a>使用mpicc命令来编译程序<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mpicc -g -Wall -o mpi_exec mpi_exec.c</span><br></pre></td></tr></table></figure>
 <ul>
@@ -445,7 +445,7 @@
 <ul>
 <li><code>-n &lt;number of processes&gt;</code>：告诉系统启动&lt;number of processes &gt;个&lt;mpi_exec&gt;程序的实例，进程运行后，MPI保证进程间可以相互通信。</li>
 </ul>
-<h2 id="基本函数"><a class="header-anchor" href="#基本函数">¶</a>基本函数</h2>
+<h2 id="center-基本函数-center"><a class="header-anchor" href="#center-基本函数-center">¶</a><center>基本函数</center></h2>
 <h3 id="MPI-Init和MPI-Finalize"><a class="header-anchor" href="#MPI-Init和MPI-Finalize">¶</a>MPI_Init和MPI_Finalize</h3>
 <h4 id="MPI-Init"><a class="header-anchor" href="#MPI-Init">¶</a>MPI_Init()</h4>
 <ul>
@@ -544,7 +544,7 @@
 <li>MPI要求消息是<strong>不可超越的</strong>。进程发送多条消息给其它进程时，要确保发送消息的现后顺序，只有当前消息发送成功后才能继续发送下一消息。</li>
 <li>如果<code>MPI_Send</code>发生阻塞，且没有相匹配的接受，那么发送进程会悬挂起来；若被缓冲，但没有匹配的接受，那么消息将丢失。</li>
 </ul>
-<h2 id="补充"><a class="header-anchor" href="#补充">¶</a>补充</h2>
+<h2 id="center-补充-center"><a class="header-anchor" href="#center-补充-center">¶</a><center>补充</center></h2>
 <h3 id="span-id-jump1-MPI-Datatype-span"><a class="header-anchor" href="#span-id-jump1-MPI-Datatype-span">¶</a><span id="jump1">MPI_Datatype</span></h3>
 <table>
 <thead>
@@ -833,7 +833,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译执行"><span class="nav-text">编译执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpicc命令来编译程序"><span class="nav-text">使用mpicc命令来编译程序[2]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpiexec命令启动程序"><span class="nav-text">使用mpiexec命令启动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本函数"><span class="nav-text">基本函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Init和MPI-Finalize"><span class="nav-text">MPI_Init和MPI_Finalize</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Init"><span class="nav-text">MPI_Init()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Finalize"><span class="nav-text">MPI_Finalize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准MPI程序框架"><span class="nav-text">标准MPI程序框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Comm-size和MPI-Comm-rank"><span class="nav-text">MPI_Comm_size和MPI_Comm_rank</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通信子"><span class="nav-text">通信子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-size"><span class="nav-text">MPI_Comm_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-rank"><span class="nav-text">MPI_Comm_rank</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Send和MPI-Recv"><span class="nav-text">MPI_Send和MPI_Recv</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SPMD程序"><span class="nav-text">SPMD程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通信"><span class="nav-text">通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-id-jump2-MPI-Send-span"><span class="nav-text">MPI_Send</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Recv"><span class="nav-text">MPI_Recv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于MPI-Send和MPI-Recv"><span class="nav-text">关于MPI_Send和MPI_Recv</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#span-id-jump1-MPI-Datatype-span"><span class="nav-text">MPI_Datatype</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#center-编译执行-center"><span class="nav-text">编译执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpicc命令来编译程序"><span class="nav-text">使用mpicc命令来编译程序[2]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpiexec命令启动程序"><span class="nav-text">使用mpiexec命令启动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#center-基本函数-center"><span class="nav-text">基本函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Init和MPI-Finalize"><span class="nav-text">MPI_Init和MPI_Finalize</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Init"><span class="nav-text">MPI_Init()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Finalize"><span class="nav-text">MPI_Finalize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准MPI程序框架"><span class="nav-text">标准MPI程序框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Comm-size和MPI-Comm-rank"><span class="nav-text">MPI_Comm_size和MPI_Comm_rank</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通信子"><span class="nav-text">通信子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-size"><span class="nav-text">MPI_Comm_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-rank"><span class="nav-text">MPI_Comm_rank</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Send和MPI-Recv"><span class="nav-text">MPI_Send和MPI_Recv</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SPMD程序"><span class="nav-text">SPMD程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通信"><span class="nav-text">通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-id-jump2-MPI-Send-span"><span class="nav-text">MPI_Send</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Recv"><span class="nav-text">MPI_Recv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于MPI-Send和MPI-Recv"><span class="nav-text">关于MPI_Send和MPI_Recv</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#center-补充-center"><span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#span-id-jump1-MPI-Datatype-span"><span class="nav-text">MPI_Datatype</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
