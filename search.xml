@@ -1,112 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>MPI基本函数</title>
+    <title>用MPI进行分布式内存编程</title>
     <url>/2020/07/10/MPI%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h1 id="MPI基本函数"><a href="#MPI基本函数" class="headerlink" title="MPI基本函数"></a>MPI基本函数</h1><h2 id="int-MPI-Init-int-argc-p-char-argv-p"><a href="#int-MPI-Init-int-argc-p-char-argv-p" class="headerlink" title="int MPI_Init(int* argc_p, char *** argv_p)"></a>int MPI_Init(int* argc_p, char *** argv_p)</h2><ul>
-<li>通常情况，第一个被调用的MPI函数，用于并行环境初始化</li>
-<li>除<code>MPI_Initialized()</code>之外，其余所有的MPI函数应该在其后调用</li>
-<li>MPI系统通过<strong>argc</strong>和<strong>argv</strong>得到命令行参数(main函数必须带参数)</li>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&emsp;&emsp;<strong>分布式内存系统</strong>，顾名思义，是由多个处理器(CPU)组成，每个处理器可以位于不同的计算机上，并且都有各自私有的内存。<br>&emsp;&emsp;<strong>MPI</strong>(Message-Passing Interface)，是运行在分布式计算机系统上的并行应用程序所使用的最流行的通信协议。它不是一种新的语言，它定义了可以被C、C++和Fortran程序调用的函数库。<br>&emsp;&emsp;在消息传递程序[^1]中， 运行在一个 核 - 内存 对上的程序统称为一个进程。两个进程可以通过调用函数来进行通信：一个进程调用发送函数，一个进程调用接受函数，该通信方式的实现即为MPI。<br>[^1]: 使用消息传递来对分布式内存系统进行编程所得到的程序。</p>
+<a id="more"></a>
+
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="编译执行"><a href="#编译执行" class="headerlink" title="编译执行"></a>编译执行</h2><h3 id="使用mpicc命令来编译程序-2"><a href="#使用mpicc命令来编译程序-2" class="headerlink" title="使用mpicc命令来编译程序[^2]"></a>使用mpicc命令来编译程序[^2]</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpicc -g -Wall -o mpi_exec mpi_exec.c</span><br></pre></td></tr></table></figure>
+<ul>
+<li>mpicc是C语言编译器的wrapper script。</li>
+<li><code>$</code>：shell提示符</li>
+<li><code>-g</code>：需要对程序进行gdb调试则加上该选项</li>
+<li><code>-Wall</code>：产生警告信息</li>
+<li><code>-o</code>：后接产生的可执行文件的名称<br>[^2]: 我们假定使用GNU C编译器。</li>
 </ul>
-<h2 id="int-MPI-Finalize-void"><a href="#int-MPI-Finalize-void" class="headerlink" title="int MPI_Finalize(void)"></a>int MPI_Finalize(void)</h2><ul>
-<li>退出MPI系统，<strong>所有进程</strong>正常退出都必须调用。表明并行代码的结束，结束所有子程序</li>
-<li>串行代码仍可在主进程上运行，但是不能再有MPI函数</li>
+<h3 id="使用mpiexec命令启动程序"><a href="#使用mpiexec命令启动程序" class="headerlink" title="使用mpiexec命令启动程序"></a>使用mpiexec命令启动程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpiexec -n &lt;number of processes&gt; ./mpi_exec</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-n &lt;number of processes&gt;</code>：告诉系统启动&lt;number of processes &gt;个<mpi_exec>程序的实例，进程运行后，MPI保证进程间可以相互通信。</li>
 </ul>
-<h2 id="int-MPI-Comm-size-MPI-Comm-comm-int-comm-sz-p"><a href="#int-MPI-Comm-size-MPI-Comm-comm-int-comm-sz-p" class="headerlink" title="int MPI_Comm_size(MPI_Comm comm, int* comm_sz_p)"></a>int MPI_Comm_size(MPI_Comm comm, int* comm_sz_p)</h2><ul>
-<li>获得进程个数<strong>comm_sz_p</strong></li>
-<li>指定一个通信子，也指定了一组共享该空间的进程，这些进程组成该通信子的组</li>
-<li>获得通信子<strong>comm</strong>中规定的组包含的进程的数量</li>
+<h2 id="基本函数"><a href="#基本函数" class="headerlink" title="基本函数"></a>基本函数</h2><h3 id="MPI-Init和MPI-Finalize"><a href="#MPI-Init和MPI-Finalize" class="headerlink" title="MPI_Init和MPI_Finalize"></a>MPI_Init和MPI_Finalize</h3><h4 id="MPI-Init"><a href="#MPI-Init" class="headerlink" title="MPI_Init()"></a>MPI_Init()</h4><ul>
+<li>告知MPI系统进行所有必要的初始化设置，即并行环境初始化<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Init</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* argc_p         <span class="comment">/* in/out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">char</span>*** argv_p      <span class="comment">/* in/out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>参数 $argc_p$ 和 $argv_p$ 是指向 $main$ 主函数的参数 $argc$ 和 $argv$ 的指针。(不使用这些参数时，设置为 $NULL$ 即可)</li>
+<li><code>MPI_Init</code> 函数返回一个 $int$ 型的错误码，通常情况下我们忽略这些错误码。</li>
+<li>在程序调用 <code>MPI_Init</code> 之前，不应该调用其它MPI函数。(除 <code>MPI_Initialized</code> 函数[^3])<br>[^3]: <code>int MPI_Initialized(int* flag)</code>：用来检测MPI系统是否已经初始化，若已调用 <code>MPI_Init</code> 或 <code>MPI_Init_thread</code>，flag置为 true, 否则置为 false。<h4 id="MPI-Finalize"><a href="#MPI-Finalize" class="headerlink" title="MPI_Finalize"></a>MPI_Finalize</h4></li>
+</ol>
+</li>
+<li>告知MPI系统MPI已经使用完毕，为MPI分配的资源可以释放<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Finalize</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p"><a href="#int-MPI-Comm-rank-MPI-Comm-comm-int-my-rank-p" class="headerlink" title="int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)"></a>int MPI_Comm_rank(MPI_Comm comm, int* my_rank_p)</h2><ul>
-<li>得到本进程在通信空间中的rank值，即在组中的逻辑编号(0,p-1)，相当于<strong>进程ID</strong></li>
+<ol>
+<li>退出MPI系统，所有进程正常退出都必须调用该函数。</li>
+<li>串行代码仍可在主进程上运行，但是不可以再调用任何MPI函数。<h4 id="标准MPI程序框架"><a href="#标准MPI程序框架" class="headerlink" title="标准MPI程序框架"></a>标准MPI程序框架</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">/* No MPI calls before this */</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line">    ......</span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="comment">/*  No MPI calls after this */</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="MPI-Comm-size和MPI-Comm-rank"><a href="#MPI-Comm-size和MPI-Comm-rank" class="headerlink" title="MPI_Comm_size和MPI_Comm_rank"></a>MPI_Comm_size和MPI_Comm_rank</h3><h4 id="通信子"><a href="#通信子" class="headerlink" title="通信子"></a>通信子</h4></li>
+</ol>
+<ul>
+<li>MPI中， communicator指一组可以互相发送消息的进程集合。</li>
+<li><code>MPI_Init</code>的一个初始化设置即：  <pre><code>在用户启动程序时，定义由用户启动的所有进程所组成的通信子，该通信子为 : `MPI_COMM_WORLD`。</code></pre></li>
+<li>MPI为通信子定义了一种特殊的类型：<code>MPI_Comm</code><h4 id="MPI-Comm-size"><a href="#MPI-Comm-size" class="headerlink" title="MPI_Comm_size"></a>MPI_Comm_size</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* comm_sz_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li>获得通信子<code>comm</code>中的进程数，并存在<code>comm_sz_p</code>中。<h4 id="MPI-Comm-rank"><a href="#MPI-Comm-rank" class="headerlink" title="MPI_Comm_rank"></a>MPI_Comm_rank</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* my_rank_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li>获取正在调用的进程在通信子中的进程号，并存在<code>my_rank_p</code>中。</li>
 </ul>
-<h2 id="int-MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator"><a href="#int-MPI-Send-void-msg-buf-p-int-msg-size-MPI-Datatype-msg-type-int-dest-int-tag-MPI-Comm-communicator" class="headerlink" title="int MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)"></a>int MPI_Send(void* msg_buf_p, int msg_size, MPI_Datatype msg_type, int dest, int tag, MPI_Comm communicator)</h2><ul>
-<li><strong>msg_buf_p :</strong>  你要发送的变量</li>
-<li><strong>msg_size :</strong>  你要发送的消息的个数</li>
-<li><strong>msg_type :</strong>  你要发送的数据类型</li>
-<li><strong>dest :</strong>  目的进程号</li>
-<li><strong>tag :</strong>  消息标签，接收方需要有相同标签才能接收消息</li>
-<li><strong>communicator :</strong>  通信域，表示你要向哪个组发送消息</li>
+<h3 id="MPI-Send和MPI-Recv"><a href="#MPI-Send和MPI-Recv" class="headerlink" title="MPI_Send和MPI_Recv"></a>MPI_Send和MPI_Recv</h3><h4 id="SPMD程序"><a href="#SPMD程序" class="headerlink" title="SPMD程序"></a>SPMD程序</h4><p>&emsp;&emsp;通常来说，MPI程序会运行多个进程。为了实现并行程序，我们会编写单个MPI程序，让不同进程产生不同的动作。让进程按照它们的进程号来匹配程序分支，该方法称为单程序多数据流(Simple Program Multiple Data)。</p>
+<ul>
+<li>下面的程序即通过使用 if-else 语句实现SPMD。<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// file_name: hello.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;    /* For strlen */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;       /* For MPI functions, etc */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_STRING 100</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> greeting[MAX_STRING];</span><br><span class="line">    <span class="keyword">int</span> comm_sz;    <span class="comment">/* Number of processes */</span></span><br><span class="line">    <span class="keyword">int</span> my_rank;    <span class="comment">/* My process rank */</span></span><br><span class="line">    </span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(my_rank != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(greeting, <span class="string">"Greetings from process %d of %d!"</span>, my_rank, comm_sz);</span><br><span class="line">        MPI_Send(greeting, <span class="built_in">strlen</span>(greeting)+<span class="number">1</span>, MPI_CHAR, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Greetings from process %d of %d!\n"</span>, my_rank, comm_sz);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> q=<span class="number">1</span>; q&lt;comm_sz; q++)&#123;</span><br><span class="line">            MPI_Recv(greeting, MAX_STRING, MPI_CHAR, q, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, greeting);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   <span class="comment">/* main */</span></span><br></pre></td></tr></table></figure></li>
+<li>编译运行<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mpicc -g -Wall -o hello hello.c</span><br><span class="line">mpiexec -n 4 .&#x2F;hello</span><br></pre></td></tr></table></figure></li>
+<li>运行结果<br>![]{hello.png}</li>
 </ul>
-<h2 id="int-MPI-Recv-void-msg-buf-p-int-buf-size-MPI-Datatype-buf-type-int-source-int-tag-MPI-Comm-communicator-MPI-Status-status-p"><a href="#int-MPI-Recv-void-msg-buf-p-int-buf-size-MPI-Datatype-buf-type-int-source-int-tag-MPI-Comm-communicator-MPI-Status-status-p" class="headerlink" title="int MPI_Recv(void* msg_buf_p, int buf_size, MPI_Datatype buf_type, int source, int tag, MPI_Comm communicator, MPI_Status* status_p)"></a>int MPI_Recv(void* msg_buf_p, int buf_size, MPI_Datatype buf_type, int source, int tag, MPI_Comm communicator, MPI_Status* status_p)</h2><ul>
-<li><strong>mag_buf_p :</strong>  接受缓冲区</li>
-<li><strong>buf_size :</strong>  接受数据长度的上界，具体的接受到的长度可用<code>MPI_Get_count</code>函数得到</li>
-<li><strong>buf_type :</strong>  你接受的数据类型</li>
-<li><strong>source :</strong>  接收端进程号，你需要哪个进程接受消息，就填写接收进程的进程号</li>
-<li><strong>tag :</strong>  消息标签，需要与发送方的tag值相同的消息标签才能接受该消息</li>
-<li><strong>communicator :</strong>  通信域</li>
-<li><strong>status_p :</strong>  消息状态。接收函数返回时，将在这个参数指示的变量中存储实际接受消息的状态，包括<strong>MPI_SOURCE</strong>、<strong>MPI_TAG</strong>、<strong>MPI_ERROR</strong></li>
+<h4 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h4><p>&emsp;&emsp;在上述程序中，我们可以发现除了0号进程外，其余的进程都使用<code>sprintf</code>函数生成了一条要发送给0号进程的消息，并使用<code>MPI_Send</code>将消息发送给0号进程。同时，0号进程也使用<code>MPI_Recv</code>接受消息，并用<code>printf</code>函数将消息打印出。<br>&emsp;&emsp;0号进程使用for循环依次接受来自1~comm_sz-1 号进程发送来的消息。</p>
+<h4 id="MPI-Send"><a href="#MPI-Send" class="headerlink" title="MPI_Send"></a><span id="jump2">MPI_Send</span></h4><ul>
+<li>进程间发送消息<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Send</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p      <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           dest           <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag            <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator   <span class="comment">/* in */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+&emsp;参数解析<br><code>msg_buf_p</code>：指向包含发送消息内容的内存块的指针<br><code>msg_size</code>：发送的消息的个数<br><code>msg_type</code>：发送消息的数据类型<br><code>dest</code>：目的进程号<br><code>tag</code>：消息标签，接受方需要有相同标签才能接受消息<br><code>communicator</code>：通信子，表示在该通信组内传输消息</li>
+<li>由于C语言中的数据类型不能作为参数传递给函数，MPI定义了一个特殊的类型：<a href="#jump1">MPI_Datatype</a>，用于参数msg_type。</li>
+<li><code>msg_size</code>和<code>msh_type</code>指定了发送的数据量，对于<code>MPI_CHAR</code>，因为C语言中字符串结束符为<code>&#39;\0&#39;</code>，所以<code>msg_size</code>为<code>strlen(greeting)+1</code>。</li>
 </ul>
-<h2 id="int-MPI-Initialized-int-flag"><a href="#int-MPI-Initialized-int-flag" class="headerlink" title="int MPI_Initialized(int* flag)"></a>int MPI_Initialized(int* flag)</h2><ul>
-<li><strong>flag :</strong>  指示是否调用<code>MPI_Init()</code>，若调用则为<strong>true</strong>，否则为<strong>false</strong></li>
+<h4 id="MPI-Recv"><a href="#MPI-Recv" class="headerlink" title="MPI_Recv"></a>MPI_Recv</h4><ul>
+<li>接受消息<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Recv</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p     <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           source        <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag           <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*   status_p      <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+&emsp;参数解析<br><code>msg_buf_p</code>：指向接受信息的内存块<br><code>msg_size</code>：指定内存中要存储对象的个数<br><code>msg_type</code>：待存储对象的类型<br><code>source</code>：接收的消息的源进程号<br><code>tag</code>：消息标签，和发送方的tag值相同时才能接受该消息<br><code>communicator</code>：通信子，表示在该通信组内传输消息<br><code>status_p</code>：消息状态。接受函数返回后，将在这个参数指示的变量中存储实际接受消息的状态，包括<code>MPI_SOURCE</code>、<code>MPI_TAG</code>、<code>MPI_ERROR</code></li>
+<li>接受到的数据量可以通过函数<a href="#jump3"><code>MPI_Get_count</code></a>得到<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Get_count</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*    status_p <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype   type     <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>*           count_p  <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="关于MPI-Send和MPI-Recv"><a href="#关于MPI-Send和MPI-Recv" class="headerlink" title="关于MPI_Send和MPI_Recv"></a>关于MPI_Send和MPI_Recv</h4></li>
+<li>在<code>MPI_Send</code>发送一条消息后，该消息会被放入到缓冲区中，此时系统会出现阻塞，只有当缓冲区可以重新使用时，才会返回<code>MPI_Send</code>的调用。 当消息被<strong>发送至匹配的接受缓冲区</strong>或者<strong>被拷贝至一个中间系统缓冲区</strong>时，发送数据的缓冲区会被释放。</li>
+<li>对于<code>MPI_Recv</code>，在接受消息的时候，系统会产生阻塞，直到接受到一条匹配的消息。 如果一个进程试图接受消息，但是没有匹配的消息，那么进程就会被永远阻塞在那里，即<strong>进程悬挂</strong>。</li>
+<li>MPI要求消息是<strong>不可超越的</strong>。进程发送多条消息给其它进程时，要确保发送消息的现后顺序，只有当前消息发送成功后才能继续发送下一消息。</li>
+<li>如果<code>MPI_Send</code>发生阻塞，且没有相匹配的接受，那么发送进程会悬挂起来；若被缓冲，但没有匹配的接受，那么消息将丢失。</li>
 </ul>
-<h2 id="int-MPI-Get-count-MPI-Status-status-p-MPI-Datatype-type-int-count-p"><a href="#int-MPI-Get-count-MPI-Status-status-p-MPI-Datatype-type-int-count-p" class="headerlink" title="int MPI_Get_count(MPI_Status* status_p, MPI_Datatype type, int* count_p)"></a>int MPI_Get_count(MPI_Status* status_p, MPI_Datatype type, int* count_p)</h2><ul>
-<li><strong>status :</strong>  消息的状态</li>
-<li><strong>type :</strong>  接收数据的类型</li>
-<li><strong>count_p :</strong> 实际接收数据个数</li>
-</ul>
-<h2 id="MPI-Datatype"><a href="#MPI-Datatype" class="headerlink" title="MPI_Datatype"></a>MPI_Datatype</h2><table>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="MPI-Datatype"><a href="#MPI-Datatype" class="headerlink" title="MPI_Datatype"></a><span id="jump1">MPI_Datatype</span></h3><table>
 <thead>
 <tr>
-<th align="left">MPI datatype</th>
-<th align="left">C datatype</th>
+<th align="center">MPI Datatype</th>
+<th align="center">C Datatype</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">MPI_CHAR</td>
-<td align="left">signed <strong>char</strong></td>
+<td align="center">MPI_CHAR</td>
+<td align="center">signed char</td>
 </tr>
 <tr>
-<td align="left">MPI_SHORT</td>
-<td align="left">signed <strong>short in</strong>t</td>
+<td align="center">MPI_SHORT</td>
+<td align="center">signed short int</td>
 </tr>
 <tr>
-<td align="left">MPI_INT</td>
-<td align="left">signed <strong>int</strong></td>
+<td align="center">MPI_INT</td>
+<td align="center">signed int</td>
 </tr>
 <tr>
-<td align="left">MPI_LONG</td>
-<td align="left">signed <strong>long int</strong></td>
+<td align="center">MPI_LONG</td>
+<td align="center">signed long int</td>
 </tr>
 <tr>
-<td align="left">MPI_LONG_LONG</td>
-<td align="left">signed <strong>long long int</strong></td>
+<td align="center">MPI_LONG_LONG</td>
+<td align="center">signed long long int</td>
 </tr>
 <tr>
-<td align="left">MPI_UNSIGNED_CHAR</td>
-<td align="left">unsigned <strong>char</strong></td>
+<td align="center">MPI_UNSIGNED_CHAR</td>
+<td align="center">unsigned char</td>
 </tr>
 <tr>
-<td align="left">MPI_UNSIGNED_SHORT</td>
-<td align="left">unsigned <strong>short int</strong></td>
+<td align="center">MPI_UNSIGNED_SHORT</td>
+<td align="center">unsigned short int</td>
 </tr>
 <tr>
-<td align="left">MPI_UNSIGNED</td>
-<td align="left">unsigned <strong>int</strong></td>
+<td align="center">MPI_UNSIGNED</td>
+<td align="center">unsigned int</td>
 </tr>
 <tr>
-<td align="left">MPI_UNSIGNED_LONG</td>
-<td align="left">unsigned <strong>long int</strong></td>
+<td align="center">MPI_UNSIGNED_LONG</td>
+<td align="center">unsigned long int</td>
 </tr>
 <tr>
-<td align="left">MPI_FLOAT</td>
-<td align="left"><strong>float</strong></td>
+<td align="center">MPI_FLOAT</td>
+<td align="center">float</td>
 </tr>
 <tr>
-<td align="left">MPI_DOUBLE</td>
-<td align="left"><strong>double</strong></td>
+<td align="center">MPI_DOUBLE</td>
+<td align="center">double</td>
 </tr>
 <tr>
-<td align="left">MPI_LONG_DOUBLE</td>
-<td align="left"><strong>long double</strong></td>
+<td align="center">MPI_LONG_DOUBLE</td>
+<td align="center">long double</td>
 </tr>
 <tr>
-<td align="left">MPI_BYTE</td>
-<td align="left"></td>
+<td align="center">MPI_BYTE</td>
+<td align="center"></td>
 </tr>
 <tr>
-<td align="left">MPI_PACKED</td>
-<td align="left"></td>
+<td align="center">MPI_PACKED</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"><a href="#jump2">BACK</a></td>
+<td align="center"></td>
 </tr>
 </tbody></table>
 ]]></content>
