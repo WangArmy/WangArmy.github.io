@@ -127,8 +127,9 @@
 <meta property="og:image" content="https://junw.wang/2020/07/25/MPI/hello.png">
 <meta property="og:image" content="https://junw.wang/2020/07/25/MPI/trapezoidal_rule.png">
 <meta property="og:image" content="https://junw.wang/2020/07/25/MPI/result.png">
+<meta property="og:image" content="https://junw.wang/2020/07/25/MPI/tree1.png">
 <meta property="article:published_time" content="2020-07-24T17:26:52.000Z">
-<meta property="article:modified_time" content="2020-07-26T14:57:09.053Z">
+<meta property="article:modified_time" content="2020-07-28T05:23:58.314Z">
 <meta property="article:author" content="Jun Wang">
 <meta property="article:tag" content="MPI">
 <meta property="article:tag" content="函数">
@@ -597,7 +598,77 @@
 <li>大部分的MPI实现，只允许<code>MPI_COMM_WORLD</code>中的0号进程访问标准输入<code>stdin</code>。</li>
 <li>所以我们会在程序中，根据进程号来选取转移分支。0号进程负责读入数据，并将数据发送给其它进程。</li>
 <li>针对上述梯形积分的问题，编写输入函数<code>MPI_Get_data</code>来获取用户输出的 $a$, $b$, $n$的值。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MPI_Get_data</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    my_rank <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    comm_sz <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *a_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *b_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    *n_p    <span class="comment">/* out */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dest;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Enter a, b, n:\n"</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%lf %lf %lf, a_p, b_p, n_p"</span>);</span><br><span class="line">        <span class="keyword">for</span>(dest=<span class="number">1</span>; dest&lt;comm_sz; dest++)&#123;</span><br><span class="line">            MPI_Send(a_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(b_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(n_p, <span class="number">1</span>, MPI_INT, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        MPI_Recv(a_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(b_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(n_p, <span class="number">1</span>, MPI_INT, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   <span class="comment">/* MPI_Get_data */</span></span><br></pre></td></tr></table></figure>
-<h2 id="聚合通信"><a href="#聚合通信" class="headerlink" title="聚合通信"></a>聚合通信</h2>&emsp;&emsp;上述梯形积分法的程序，我们可以发现每个进程完成了各自部分的积分任务后，0号进程要做 $comm&#92;_sz-1$ 次计算任务。我们可以对此做出优化.<h3 id="树形结构通信"><a href="#树形结构通信" class="headerlink" title="树形结构通信"></a>树形结构通信</h3></li>
+</li>
+</ul>
+<h2 id="聚合通信"><a href="#聚合通信" class="headerlink" title="聚合通信"></a>聚合通信</h2><p>&emsp;&emsp;在MPI中，涉及通信子内所有进程的通信函数称为<strong>聚合通信</strong>。为区分聚合通信和类似<code>MPI_Send</code>和<code>MPI_Recv</code>这样的函数，<code>MPI_Send</code>和<code>MPI_Recv</code>通常称为<strong>点对点通信</strong>(point-to-point communication)。<br>&emsp;&emsp;上述梯形积分法的程序，我们可以发现每个进程完成了各自部分的积分任务后，0号进程要做 $comm&#92;_sz-1$ 次计算任务。我们可以对此做出优化。</p>
+<h3 id="树形结构通信"><a href="#树形结构通信" class="headerlink" title="树形结构通信"></a>树形结构通信</h3><p><img src="tree1.png" alt=""><br>&emsp;&emsp;如图所示，对于上述梯形积分法，我们可以通过如图所示的树形结构通信来减少0号进程的工作量。<br>&emsp;&emsp;树形结构通信能让程序并行化更加完全，但是对于程序的通信要求更加苛刻，需要我们实现不同进程之间的配对。值得开心的是，MPI实现了对于全局求和等操作。</p>
+<h3 id="MPI-Reduce"><a href="#MPI-Reduce" class="headerlink" title="MPI_Reduce"></a>MPI_Reduce</h3><p>&emsp;&emsp;全局求和只是MPI聚合通信中的一个特殊例子，MPI对这种全局函数进行概括，我们可以使用单个函数<code>MPI_Reduce</code>来完成不同的全局运算操作。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Reduce</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        input_data_p  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        output_data_p <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          count         <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype datatype      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Op       <span class="keyword">operator</span>      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          dest_process  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm     comm          <span class="comment">/* in  */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>参数解析</li>
+</ul>
+<p><code>input_data_p</code>: 待计算数据的指针<br><code>output_data_p</code>: 存储计算结果数据的指针<br><code>count</code>: 输入数据的个数<br><code>datatype</code>: 数据的类型<br><code>operator</code>: 运算符，MPI预定义类型MPI_Op<br><code>dest_process</code>: 计算结果存储的目的进程号<br><code>comm</code>: 通信域</p>
+<ul>
+<li>MPI_Op类型</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MPI_MAX</td>
+<td style="text-align:center">求最大值</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_LOR</td>
+<td style="text-align:center">逻辑或</td>
+</tr>
+<tr>
+<td style="text-align:center">MPI_MIN</td>
+<td style="text-align:center">求最小值</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_BOR</td>
+<td style="text-align:center">按位或</td>
+</tr>
+<tr>
+<td style="text-align:center">MPI_SUM</td>
+<td style="text-align:center">求累加和</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_XLOR</td>
+<td style="text-align:center">逻辑异或</td>
+</tr>
+<tr>
+<td style="text-align:center">MPI_PROD</td>
+<td style="text-align:center">求累乘积</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_BXOR</td>
+<td style="text-align:center">按位异或</td>
+</tr>
+<tr>
+<td style="text-align:center">MPI_LAND</td>
+<td style="text-align:center">逻辑与</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_MAXLOC</td>
+<td style="text-align:center">求最大值和最大值所在的位置</td>
+</tr>
+<tr>
+<td style="text-align:center">MPI_BAND</td>
+<td style="text-align:center">按位与</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">MPI_MINLOC</td>
+<td style="text-align:center">求最小值和最小值所在的位置</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>理解<br>&emsp;&emsp;程序会对所有进程中的<code>input_data_p</code>执行<code>operator</code>操作，并将结果存储在<code>dest</code>号进程的<code>output_data_p</code>中。<br>&emsp;&emsp;</li>
 </ul>
 
       
@@ -642,6 +713,22 @@
       
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/14/Linux-shell/" rel="prev" title="Shell Script编程">
+                Shell Script编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -724,7 +811,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -735,7 +822,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -746,7 +833,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -808,7 +895,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译执行"><span class="nav-text">编译执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpicc命令来编译程序2"><span class="nav-text">使用mpicc命令来编译程序2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpiexec命令启动程序"><span class="nav-text">使用mpiexec命令启动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本函数"><span class="nav-text">基本函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Init和MPI-Finalize"><span class="nav-text">MPI_Init和MPI_Finalize</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Init"><span class="nav-text">MPI_Init()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Finalize"><span class="nav-text">MPI_Finalize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准MPI程序框架"><span class="nav-text">标准MPI程序框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Comm-size和MPI-Comm-rank"><span class="nav-text">MPI_Comm_size和MPI_Comm_rank</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通信子"><span class="nav-text">通信子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-size"><span class="nav-text">MPI_Comm_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-rank"><span class="nav-text">MPI_Comm_rank</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Send和MPI-Recv"><span class="nav-text">MPI_Send和MPI_Recv</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SPMD程序"><span class="nav-text">SPMD程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通信"><span class="nav-text">通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Send"><span class="nav-text">MPI_Send</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Recv"><span class="nav-text">MPI_Recv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于MPI-Send和MPI-Recv"><span class="nav-text">关于MPI_Send和MPI_Recv</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Datatype"><span class="nav-text">MPI_Datatype</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进阶"><span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用MPI来实现梯形积分法"><span class="nav-text">用MPI来实现梯形积分法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#梯形积分法"><span class="nav-text">梯形积分法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行化梯形积分法"><span class="nav-text">并行化梯形积分法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O处理"><span class="nav-text">I&#x2F;O处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-text">输入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合通信"><span class="nav-text">聚合通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树形结构通信"><span class="nav-text">树形结构通信</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译执行"><span class="nav-text">编译执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpicc命令来编译程序2"><span class="nav-text">使用mpicc命令来编译程序2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mpiexec命令启动程序"><span class="nav-text">使用mpiexec命令启动程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本函数"><span class="nav-text">基本函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Init和MPI-Finalize"><span class="nav-text">MPI_Init和MPI_Finalize</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Init"><span class="nav-text">MPI_Init()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Finalize"><span class="nav-text">MPI_Finalize</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准MPI程序框架"><span class="nav-text">标准MPI程序框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Comm-size和MPI-Comm-rank"><span class="nav-text">MPI_Comm_size和MPI_Comm_rank</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通信子"><span class="nav-text">通信子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-size"><span class="nav-text">MPI_Comm_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Comm-rank"><span class="nav-text">MPI_Comm_rank</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Send和MPI-Recv"><span class="nav-text">MPI_Send和MPI_Recv</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SPMD程序"><span class="nav-text">SPMD程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通信"><span class="nav-text">通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Send"><span class="nav-text">MPI_Send</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MPI-Recv"><span class="nav-text">MPI_Recv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于MPI-Send和MPI-Recv"><span class="nav-text">关于MPI_Send和MPI_Recv</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Datatype"><span class="nav-text">MPI_Datatype</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进阶"><span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用MPI来实现梯形积分法"><span class="nav-text">用MPI来实现梯形积分法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#梯形积分法"><span class="nav-text">梯形积分法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行化梯形积分法"><span class="nav-text">并行化梯形积分法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-O处理"><span class="nav-text">I&#x2F;O处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输出"><span class="nav-text">输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入"><span class="nav-text">输入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合通信"><span class="nav-text">聚合通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#树形结构通信"><span class="nav-text">树形结构通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPI-Reduce"><span class="nav-text">MPI_Reduce</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -105,7 +105,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Shell Script,Unix/Linux," />
 
 
 
@@ -118,13 +118,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="https://junw.wang/tags/index.html">
+<meta name="description" content="前言&amp;emsp;&amp;emsp;脚本编程语言是一种解释性语言, 其可执行文件为文本格式, 在执行时由解释器读入代码并将其转化为内部形式，再执行。(解释器本身是一般的编译型程序)&amp;emsp;&amp;emsp;Shell是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。&amp;emsp;&amp;emsp;Shell Script是一种为Shell编写的脚本程序。本文会">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell Script编程">
+<meta property="og:url" content="https://junw.wang/2020/09/14/Linux-shell/index.html">
 <meta property="og:site_name" content="JunW&#39;s Blog">
-<meta property="article:published_time" content="2020-07-14T16:23:34.000Z">
-<meta property="article:modified_time" content="2020-07-14T16:38:06.268Z">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;脚本编程语言是一种解释性语言, 其可执行文件为文本格式, 在执行时由解释器读入代码并将其转化为内部形式，再执行。(解释器本身是一般的编译型程序)&amp;emsp;&amp;emsp;Shell是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。&amp;emsp;&amp;emsp;Shell Script是一种为Shell编写的脚本程序。本文会">
+<meta property="article:published_time" content="2020-09-14T09:22:23.000Z">
+<meta property="article:modified_time" content="2020-09-15T14:03:10.592Z">
 <meta property="article:author" content="Jun Wang">
+<meta property="article:tag" content="Shell Script">
+<meta property="article:tag" content="Unix&#x2F;Linux">
 <meta name="twitter:card" content="summary">
 
 
@@ -155,13 +159,13 @@
 
 
 
-  <link rel="canonical" href="https://junw.wang/tags/"/>
+  <link rel="canonical" href="https://junw.wang/2020/09/14/Linux-shell/"/>
 
 
 
 
 
-  <title>tags | JunW's Blog</title>
+  <title>Shell Script编程 | JunW's Blog</title>
   
 
 
@@ -310,40 +314,501 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junw.wang/2020/09/14/Linux-shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JunW's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body han-init-context">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                4 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/MPI/" style="font-size: 12px; color: #ccc">MPI</a> <a href="/tags/Shell-Script/" style="font-size: 12px; color: #ccc">Shell Script</a> <a href="/tags/Unix-Linux/" style="font-size: 12px; color: #ccc">Unix/Linux</a> <a href="/tags/%E5%87%BD%E6%95%B0/" style="font-size: 12px; color: #ccc">函数</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Shell Script编程</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-14T17:22:23+08:00">
+                2020-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/09/14/Linux-shell/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/09/14/Linux-shell/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><center>前言</center></h1><p>&emsp;&emsp;<strong>脚本编程语言</strong>是一种解释性语言, 其可执行文件为文本格式, 在执行时由解释器读入代码并将其转化为内部形式，再执行。(解释器本身是一般的编译型程序)<br>&emsp;&emsp;<strong>Shell</strong>是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。<br>&emsp;&emsp;<strong>Shell Script</strong>是一种为Shell编写的脚本程序。本文会向你介绍关于Shell Script编程的一些基础知识。<br><a id="more"></a></p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a><center>基础</center></h1><h2 id="Shell脚本编写规范"><a href="#Shell脚本编写规范" class="headerlink" title="Shell脚本编写规范"></a>Shell脚本编写规范</h2><ul>
+<li>一个规范的Shell脚本会在第一行指出由哪个解释器来执行脚本中的内容，在Linux bash的编程一般为<code>#! /bin/bash</code>或<code>#! /bin/sh</code>。(<em>sh</em> 是 <em>bash</em> 的软链接)</li>
+</ul>
+<h2 id="echo输出"><a href="#echo输出" class="headerlink" title="echo输出"></a>echo输出</h2><ul>
+<li>语法 : <code>echo [ options ] [ string ... ]</code></li>
+<li>作用 : 产生Shell脚本的输出</li>
+<li>参数 : <ul>
+<li>-e : 开启转义</li>
+<li>-n : 输出省略换行符</li>
+</ul>
+</li>
+<li>转义字符序列 ：</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序列</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\a</td>
+<td style="text-align:center">警示字符, 通常是ASCII的BEL字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\b</td>
+<td style="text-align:center">退格 (Backspace)</td>
+</tr>
+<tr>
+<td style="text-align:center">\c</td>
+<td style="text-align:center">输出中忽略最后的换行字符(Newline)。这个参数之后的任何字符，包括接下来的参数都会被忽略掉(不打印)。</td>
+</tr>
+<tr>
+<td style="text-align:center">\f</td>
+<td style="text-align:center">清除屏幕 (Formfeed)</td>
+</tr>
+<tr>
+<td style="text-align:center">\n</td>
+<td style="text-align:center">换行</td>
+</tr>
+<tr>
+<td style="text-align:center">\r</td>
+<td style="text-align:center">回车</td>
+</tr>
+<tr>
+<td style="text-align:center">\t</td>
+<td style="text-align:center">水平制表符</td>
+</tr>
+<tr>
+<td style="text-align:center">\v</td>
+<td style="text-align:center">垂直制表符</td>
+</tr>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:center">反斜杠字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\oddd</td>
+<td style="text-align:center">将字符表示成1~3位的八进制数值</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="printf输出"><a href="#printf输出" class="headerlink" title="printf输出"></a>printf输出</h2><ul>
+<li>语法 : <code>printf *format-string* [ arguments ... ]</code></li>
+<li>作用 : 格式化输出字符串(和C中的printf相同用法)</li>
+</ul>
+<h2 id="基本的I-O重定向"><a href="#基本的I-O重定向" class="headerlink" title="基本的I/O重定向"></a>基本的I/O重定向</h2><p>&emsp;&emsp;程序应该有数据的来源端、数据的目的端以及报告问题的地方，它们分别被称为标准输入(stdin)、标准输出(stdout)和标准错误输出(stderr)。<br>&emsp;&emsp;I/O重定向就是用户通过与终端交互或在Shell脚本里设置，重新安排从哪里输入或输出到哪里。</p>
+<h3 id="重定向和管道"><a href="#重定向和管道" class="headerlink" title="重定向和管道"></a>重定向和管道</h3><ul>
+<li><code>&lt;</code> 改变标准输入</li>
+<li><code>&gt;</code> 改变标准输出</li>
+<li><code>&gt;&gt;</code> 追加到文件</li>
+<li><code>|</code> 建立管道<h3 id="特殊文件"><a href="#特殊文件" class="headerlink" title="特殊文件"></a>特殊文件</h3></li>
+<li><code>/dev/null</code>: bit bucket, 传输到此文件的数据会被系统丢掉 </li>
+<li><code>/dev/tty</code>: 程序打开此文件时，会将它自动重定向到一个终端或串行端口，也可能是一个通过网络与窗口登录的伪终端再与程序结合。</li>
+</ul>
+<h2 id="Shell脚本的参数"><a href="#Shell脚本的参数" class="headerlink" title="Shell脚本的参数"></a>Shell脚本的参数</h2><ul>
+<li><code>$0</code>: 程序名称</li>
+<li><code>$#</code>: 传递到脚本的参数个数</li>
+<li><code>$1~$9</code>: 第一到第九个参数</li>
+<li><code>$*</code>: 以一个单字符串显示所有向脚本传递的参数</li>
+<li><code>$@</code>: 与<code>$*</code>相同，但是使用时加引号，并在引号中返回每个参数</li>
+<li>$$$$: 脚本运行的当前进程ID号</li>
+<li><code>$!</code>: 后台运行的最后一个进程的ID号</li>
+<li><code>$?</code>: 显示最后命令的退出状态。0表示没有错误，其他值即表明有错误。</li>
+</ul>
+<h2 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h2><h3 id="布尔运算符"><a href="#布尔运算符" class="headerlink" title="布尔运算符"></a>布尔运算符</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">!</td>
+<td style="text-align:center">非运算</td>
+</tr>
+<tr>
+<td style="text-align:center">-o</td>
+<td style="text-align:center">或运算</td>
+</tr>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">与运算</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">&amp;&amp;</td>
+<td style="text-align:center">逻辑的AND</td>
+</tr>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:center">\</td>
+<td></td>
+<td>逻辑的OR</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="字符串运算符"><a href="#字符串运算符" class="headerlink" title="字符串运算符"></a>字符串运算符</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">=</td>
+<td style="text-align:center">判断字符串是否相等</td>
+</tr>
+<tr>
+<td style="text-align:center">!=</td>
+<td style="text-align:center">检测字符串是否不相等</td>
+</tr>
+<tr>
+<td style="text-align:center">-z</td>
+<td style="text-align:center">检测字符串长度是否为0</td>
+</tr>
+<tr>
+<td style="text-align:center">-n</td>
+<td style="text-align:center">检测字符串长度是否不为0</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">检测字符串是否为空</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="文件测试运算符"><a href="#文件测试运算符" class="headerlink" title="文件测试运算符"></a>文件测试运算符</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-b file</td>
+<td style="text-align:center">文件是否为块设备文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-c file</td>
+<td style="text-align:center">文件是否为字符设备文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-d file</td>
+<td style="text-align:center">文件是否为目录</td>
+</tr>
+<tr>
+<td style="text-align:center">-f file</td>
+<td style="text-align:center">检测是否为普通文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-r/w/x file</td>
+<td style="text-align:center">检测文件是否可读、可写、可执行</td>
+</tr>
+<tr>
+<td style="text-align:center">-s file</td>
+<td style="text-align:center">检测文件是否为空</td>
+</tr>
+<tr>
+<td style="text-align:center">-e file</td>
+<td style="text-align:center">检测文件是否存在</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="文本操作"><a href="#文本操作" class="headerlink" title="文本操作"></a>文本操作</h1><h2 id="grep查找文本"><a href="#grep查找文本" class="headerlink" title="grep查找文本"></a>grep查找文本</h2><ul>
+<li>语法: <code>grep [ options ... ] pattern-spec [ files ... ]</code></li>
+<li>作用: 显示匹配一个或多个模式的文本行。时常会作为管道的第一步</li>
+<li>主要选项: <ul>
+<li>-E : 使用扩展正则表达式进行匹配。<code>grep -E</code>可取代传统的<code>egrep</code></li>
+<li>-F : 使用固定字符串进行匹配。<code>grep -F</code>可取代传统的<code>fgrep</code></li>
+<li>-e pat-list : 提供多个模式进行匹配</li>
+<li>-f pat-file : 从文件中读取模式来匹配</li>
+<li>-i : 匹配时忽略字母大小写差异</li>
+<li>-l : 列出匹配模式的文件名称，而不是打印匹配的行</li>
+<li>-q : 匹配成功则无输出，否则即是不成功</li>
+<li>-s : 不显示错误信息</li>
+<li>-v : 显示不匹配模式的行</li>
+</ul>
+</li>
+</ul>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><ul>
+<li>正则表达式是一种表示方法，让你可以查找匹配特定准则的文本。使用该表示法可以让你使用一个表达式，选定或匹配多个数据字符串。</li>
+<li>POSIX 定义了两种正则表达式语法，即：基本正则表达式（BRE）和扩展正则表达式（ERE）。大多数LINUX程序至少要符合BRE规范。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th style="text-align:center">模式含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:center">转义符</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">匹配任意单个字符</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">匹配在它之前的任何数目的单个字符</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">匹配前面正则表达式的一个或多个实例</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">匹配前面正则表达式的零个或一个实例</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">匹配紧接着的正则表达式，在字符串或行的起始处</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">匹配前面的正则表达式，在字符串或行的结尾处</td>
+</tr>
+<tr>
+<td style="text-align:center">[ … ]</td>
+<td style="text-align:center">方括号表达式，匹配方括号内的任一字符</td>
+</tr>
+<tr>
+<td style="text-align:center">\{n,m\} {n,m}</td>
+<td style="text-align:center">匹配在它前面的单个字符重现n~m次</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="使用cut选定字段"><a href="#使用cut选定字段" class="headerlink" title="使用cut选定字段"></a>使用cut选定字段</h2><ul>
+<li>语法: <ul>
+<li><code>cut -c list [ file ... ]</code> </li>
+<li><code>cut -f list [ -d delim ] [ file ... ]</code></li>
+</ul>
+</li>
+<li>用途: 从输入文件中选择一或多个字段或者一组字符，配合管道，可再做进一步处理。</li>
+<li>主要选项:<ul>
+<li>-c list : 以字符为主，执行剪下的操作。</li>
+<li>-d delim : 通过 -f 选项，使用<em>delim</em>作为定界符。</li>
+<li>-f list : 以字段为主，作剪下的操作。</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用join连接字段"><a href="#使用join连接字段" class="headerlink" title="使用join连接字段"></a>使用join连接字段</h2><ul>
+<li>语法: <code>join [ options ... ] file1 file2</code></li>
+<li>用途: 以共同一个键值，将已存储文件内的记录加以结合。</li>
+<li>主要选项:<ul>
+<li>-1 field1</li>
+<li>-2 field2<ul>
+<li>标明要结合的字段。<code>-1 field1</code>值得是从file1中取出field1，而<code>-2
+field2</code>指的是从file2中取出field2。字段编号自1开始，而非0。</li>
+</ul>
+</li>
+<li>-o file.field : 输出文件file中的field字段。(使用多个-o才能显示多个输出字段)</li>
+<li>-t separator : 使用separator作为输入字段分隔字符，而非使用空白。</li>
+</ul>
+</li>
+</ul>
+<h2 id="使用awk重新编排"><a href="#使用awk重新编排" class="headerlink" title="使用awk重新编排"></a>使用awk重新编排</h2><ul>
+<li>语法: ``</li>
+<li></li>
+</ul>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Shell-Script/" rel="tag"><i class="fa fa-tag"></i>Shell Script</a>
+          
+            <a href="/tags/Unix-Linux/" rel="tag"><i class="fa fa-tag"></i>Unix/Linux</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/25/MPI/" rel="next" title="用MPI进行分布式内存编程">
+                <i class="fa fa-chevron-left"></i> 用MPI进行分布式内存编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -352,6 +817,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -374,8 +846,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,6 +949,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shell脚本编写规范"><span class="nav-text">Shell脚本编写规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#echo输出"><span class="nav-text">echo输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#printf输出"><span class="nav-text">printf输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的I-O重定向"><span class="nav-text">基本的I&#x2F;O重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向和管道"><span class="nav-text">重定向和管道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊文件"><span class="nav-text">特殊文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shell脚本的参数"><span class="nav-text">Shell脚本的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本运算符"><span class="nav-text">基本运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔运算符"><span class="nav-text">布尔运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑运算符"><span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串运算符"><span class="nav-text">字符串运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件测试运算符"><span class="nav-text">文件测试运算符</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本操作"><span class="nav-text">文本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grep查找文本"><span class="nav-text">grep查找文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用cut选定字段"><span class="nav-text">使用cut选定字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用join连接字段"><span class="nav-text">使用join连接字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用awk重新编排"><span class="nav-text">使用awk重新编排</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
