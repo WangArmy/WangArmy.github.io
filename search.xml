@@ -3,21 +3,28 @@
   <entry>
     <title>Shell Script编程</title>
     <url>/2020/09/14/Linux-shell/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><center>前言</center></h1><p>&emsp;&emsp;<strong>脚本编程语言</strong>是一种解释性语言, 其可执行文件为文本格式, 在执行时由解释器读入代码并将其转化为内部形式，再执行。(解释器本身是一般的编译型程序)<br>&emsp;&emsp;<strong>Shell</strong>是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。<br>&emsp;&emsp;<strong>Shell Script</strong>是一种为Shell编写的脚本程序。本文会向你介绍关于Shell Script编程的一些基础知识。<br><a id="more"></a></p>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a><center>基础</center></h1><h2 id="Shell脚本编写规范"><a href="#Shell脚本编写规范" class="headerlink" title="Shell脚本编写规范"></a>Shell脚本编写规范</h2><ul>
+    <content><![CDATA[<h1><center>前言</center></h1>
+<p>  <strong>脚本编程语言</strong>是一种解释性语言, 其可执行文件为文本格式, 在执行时由解释器读入代码并将其转化为内部形式，再执行。(解释器本身是一般的编译型程序)<br>
+  <strong>Shell</strong>是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。<br>
+  <strong>Shell Script</strong>是一种为Shell编写的脚本程序。本文会向你介绍关于Shell Script编程的一些基础知识。</p>
+<a id="more"></a>
+<h1><center>基础</center></h1>
+<h2 id="Shell脚本编写规范"><a class="header-anchor" href="#Shell脚本编写规范">¶</a>Shell脚本编写规范</h2>
+<ul>
 <li>一个规范的Shell脚本会在第一行指出由哪个解释器来执行脚本中的内容，在Linux bash的编程一般为<code>#! /bin/bash</code>或<code>#! /bin/sh</code>。(<em>sh</em> 是 <em>bash</em> 的软链接)</li>
 </ul>
-<h2 id="echo输出"><a href="#echo输出" class="headerlink" title="echo输出"></a>echo输出</h2><ul>
+<h2 id="echo输出"><a class="header-anchor" href="#echo输出">¶</a>echo输出</h2>
+<ul>
 <li>语法 : <code>echo [ options ] [ string ... ]</code></li>
 <li>作用 : 产生Shell脚本的输出</li>
-<li>参数 : <ul>
+<li>参数 :
+<ul>
 <li>-e : 开启转义</li>
 <li>-n : 输出省略换行符</li>
 </ul>
 </li>
 <li>转义字符序列 ：</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -68,31 +75,39 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="printf输出"><a href="#printf输出" class="headerlink" title="printf输出"></a>printf输出</h2><ul>
+<h2 id="printf输出"><a class="header-anchor" href="#printf输出">¶</a>printf输出</h2>
+<ul>
 <li>语法 : <code>printf *format-string* [ arguments ... ]</code></li>
 <li>作用 : 格式化输出字符串(和C中的printf相同用法)</li>
 </ul>
-<h2 id="基本的I-O重定向"><a href="#基本的I-O重定向" class="headerlink" title="基本的I/O重定向"></a>基本的I/O重定向</h2><p>&emsp;&emsp;程序应该有数据的来源端、数据的目的端以及报告问题的地方，它们分别被称为标准输入(stdin)、标准输出(stdout)和标准错误输出(stderr)。<br>&emsp;&emsp;I/O重定向就是用户通过与终端交互或在Shell脚本里设置，重新安排从哪里输入或输出到哪里。</p>
-<h3 id="重定向和管道"><a href="#重定向和管道" class="headerlink" title="重定向和管道"></a>重定向和管道</h3><ul>
+<h2 id="基本的I-O重定向"><a class="header-anchor" href="#基本的I-O重定向">¶</a>基本的I/O重定向</h2>
+<p>  程序应该有数据的来源端、数据的目的端以及报告问题的地方，它们分别被称为标准输入(stdin)、标准输出(stdout)和标准错误输出(stderr)。<br>
+  I/O重定向就是用户通过与终端交互或在Shell脚本里设置，重新安排从哪里输入或输出到哪里。</p>
+<h3 id="重定向和管道"><a class="header-anchor" href="#重定向和管道">¶</a>重定向和管道</h3>
+<ul>
 <li><code>&lt;</code> 改变标准输入</li>
 <li><code>&gt;</code> 改变标准输出</li>
 <li><code>&gt;&gt;</code> 追加到文件</li>
-<li><code>|</code> 建立管道<h3 id="特殊文件"><a href="#特殊文件" class="headerlink" title="特殊文件"></a>特殊文件</h3></li>
-<li><code>/dev/null</code>: bit bucket, 传输到此文件的数据会被系统丢掉 </li>
+<li><code>|</code> 建立管道</li>
+</ul>
+<h3 id="特殊文件"><a class="header-anchor" href="#特殊文件">¶</a>特殊文件</h3>
+<ul>
+<li><code>/dev/null</code>: bit bucket, 传输到此文件的数据会被系统丢掉</li>
 <li><code>/dev/tty</code>: 程序打开此文件时，会将它自动重定向到一个终端或串行端口，也可能是一个通过网络与窗口登录的伪终端再与程序结合。</li>
 </ul>
-<h2 id="Shell脚本的参数"><a href="#Shell脚本的参数" class="headerlink" title="Shell脚本的参数"></a>Shell脚本的参数</h2><ul>
+<h2 id="Shell脚本的参数"><a class="header-anchor" href="#Shell脚本的参数">¶</a>Shell脚本的参数</h2>
+<ul>
 <li><code>$0</code>: 程序名称</li>
 <li><code>$#</code>: 传递到脚本的参数个数</li>
 <li><code>$1~$9</code>: 第一到第九个参数</li>
 <li><code>$*</code>: 以一个单字符串显示所有向脚本传递的参数</li>
 <li><code>$@</code>: 与<code>$*</code>相同，但是使用时加引号，并在引号中返回每个参数</li>
-<li>$$$$: 脚本运行的当前进程ID号</li>
+<li><code>\$\$</code>: 脚本运行的当前进程ID号</li>
 <li><code>$!</code>: 后台运行的最后一个进程的ID号</li>
 <li><code>$?</code>: 显示最后命令的退出状态。0表示没有错误，其他值即表明有错误。</li>
 </ul>
-<h2 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h2><h3 id="布尔运算符"><a href="#布尔运算符" class="headerlink" title="布尔运算符"></a>布尔运算符</h3><div class="table-container">
+<h2 id="基本运算符"><a class="header-anchor" href="#基本运算符">¶</a>基本运算符</h2>
+<h3 id="布尔运算符"><a class="header-anchor" href="#布尔运算符">¶</a>布尔运算符</h3>
 <table>
 <thead>
 <tr>
@@ -115,8 +130,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><div class="table-container">
+<h3 id="逻辑运算符"><a class="header-anchor" href="#逻辑运算符">¶</a>逻辑运算符</h3>
 <table>
 <thead>
 <tr>
@@ -130,13 +144,12 @@
 <td style="text-align:center">逻辑的AND</td>
 </tr>
 <tr>
-<td style="text-align:center">&#124;&#124;</td>
+<td style="text-align:center">||</td>
 <td style="text-align:center">逻辑的OR</td>
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="字符串运算符"><a href="#字符串运算符" class="headerlink" title="字符串运算符"></a>字符串运算符</h3><div class="table-container">
+<h3 id="字符串运算符"><a class="header-anchor" href="#字符串运算符">¶</a>字符串运算符</h3>
 <table>
 <thead>
 <tr>
@@ -167,8 +180,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="文件测试运算符"><a href="#文件测试运算符" class="headerlink" title="文件测试运算符"></a>文件测试运算符</h3><div class="table-container">
+<h3 id="文件测试运算符"><a class="header-anchor" href="#文件测试运算符">¶</a>文件测试运算符</h3>
 <table>
 <thead>
 <tr>
@@ -207,11 +219,13 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="文本操作"><a href="#文本操作" class="headerlink" title="文本操作"></a>文本操作</h1><h2 id="grep查找文本"><a href="#grep查找文本" class="headerlink" title="grep查找文本"></a>grep查找文本</h2><ul>
+<h1>文本操作</h1>
+<h2 id="grep查找文本"><a class="header-anchor" href="#grep查找文本">¶</a>grep查找文本</h2>
+<ul>
 <li>语法: <code>grep [ options ... ] pattern-spec [ files ... ]</code></li>
 <li>作用: 显示匹配一个或多个模式的文本行。时常会作为管道的第一步</li>
-<li>主要选项: <ul>
+<li>主要选项:
+<ul>
 <li>-E : 使用扩展正则表达式进行匹配。<code>grep -E</code>可取代传统的<code>egrep</code></li>
 <li>-F : 使用固定字符串进行匹配。<code>grep -F</code>可取代传统的<code>fgrep</code></li>
 <li>-e pat-list : 提供多个模式进行匹配</li>
@@ -224,11 +238,11 @@
 </ul>
 </li>
 </ul>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><ul>
+<h2 id="正则表达式"><a class="header-anchor" href="#正则表达式">¶</a>正则表达式</h2>
+<ul>
 <li>正则表达式是一种表示方法，让你可以查找匹配特定准则的文本。使用该表示法可以让你使用一个表达式，选定或匹配多个数据字符串。</li>
 <li>POSIX 定义了两种正则表达式语法，即：基本正则表达式（BRE）和扩展正则表达式（ERE）。大多数LINUX程序至少要符合BRE规范。</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -275,29 +289,33 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="使用cut选定字段"><a href="#使用cut选定字段" class="headerlink" title="使用cut选定字段"></a>使用cut选定字段</h2><ul>
-<li>语法: <ul>
-<li><code>cut -c list [ file ... ]</code> </li>
+<h2 id="使用cut选定字段"><a class="header-anchor" href="#使用cut选定字段">¶</a>使用cut选定字段</h2>
+<ul>
+<li>语法:
+<ul>
+<li><code>cut -c list [ file ... ]</code></li>
 <li><code>cut -f list [ -d delim ] [ file ... ]</code></li>
 </ul>
 </li>
 <li>用途: 从输入文件中选择一或多个字段或者一组字符，配合管道，可再做进一步处理。</li>
-<li>主要选项:<ul>
+<li>主要选项:
+<ul>
 <li>-c list : 以字符为主，执行剪下的操作。</li>
 <li>-d delim : 通过 -f 选项，使用<em>delim</em>作为定界符。</li>
 <li>-f list : 以字段为主，作剪下的操作。</li>
 </ul>
 </li>
 </ul>
-<h2 id="使用join连接字段"><a href="#使用join连接字段" class="headerlink" title="使用join连接字段"></a>使用join连接字段</h2><ul>
+<h2 id="使用join连接字段"><a class="header-anchor" href="#使用join连接字段">¶</a>使用join连接字段</h2>
+<ul>
 <li>语法: <code>join [ options ... ] file1 file2</code></li>
 <li>用途: 以共同一个键值，将已存储文件内的记录加以结合。</li>
-<li>主要选项:<ul>
+<li>主要选项:
+<ul>
 <li>-1 field1</li>
-<li>-2 field2<ul>
-<li>标明要结合的字段。<code>-1 field1</code>值得是从file1中取出field1，而<code>-2
-field2</code>指的是从file2中取出field2。字段编号自1开始，而非0。</li>
+<li>-2 field2
+<ul>
+<li>标明要结合的字段。<code>-1 field1</code>值得是从file1中取出field1，而<code>-2 field2</code>指的是从file2中取出field2。字段编号自1开始，而非0。</li>
 </ul>
 </li>
 <li>-o file.field : 输出文件file中的field字段。(使用多个-o才能显示多个输出字段)</li>
@@ -305,14 +323,79 @@ field2</code>指的是从file2中取出field2。字段编号自1开始，而非0
 </ul>
 </li>
 </ul>
-<h2 id="使用awk重新编排"><a href="#使用awk重新编排" class="headerlink" title="使用awk重新编排"></a>使用awk重新编排</h2><ul>
-<li>语法: <ul>
-<li><code>awk [ options ] &#39;script&#39; var=value file(s)</code></li>
+<h2 id="使用awk重新编排"><a class="header-anchor" href="#使用awk重新编排">¶</a>使用awk重新编排</h2>
+<ul>
+<li>语法:
+<ul>
+<li><code>awk [ options ] 'script' var=value file(s)</code></li>
 <li><code>awk [ options ] -f scriptfile var=value file(s)</code></li>
 </ul>
 </li>
-<li></li>
+<li>说明:
+<ul>
+<li>用于文本处理和报表生成，对输入的每一行文本，awk都会对其进行操作</li>
+<li>script中有Begin和End两个模块:
+<ul>
+<li><code>Begin{}</code>: 初始化变量，在脚本开始处理文件之前就开始执行，可以进行变量的初始化</li>
+<li><code>End{}</code>: 在处理完输入文件中的所有行后执行这个块</li>
 </ul>
+</li>
+<li>匹配正则: <code>awk /REG/{action} file</code>
+<ul>
+<li><code>~</code>或<code>!~</code> : 匹配或不匹配的条件语句</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>主要选项:
+<ul>
+<li>-F : 指定分隔符，可指定一个或者多个</li>
+</ul>
+</li>
+<li>常见内置变量:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">属性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$0</td>
+<td style="text-align:center">当前记录</td>
+</tr>
+<tr>
+<td style="text-align:center">$1~$n</td>
+<td style="text-align:center">当前记录的第n个字段</td>
+</tr>
+<tr>
+<td style="text-align:center">FS</td>
+<td style="text-align:center">输入字段分隔符 默认是空格</td>
+</tr>
+<tr>
+<td style="text-align:center">RS</td>
+<td style="text-align:center">输入记录分隔符 默认为换行符</td>
+</tr>
+<tr>
+<td style="text-align:center">NF</td>
+<td style="text-align:center">当前记录中的字段个数 列数</td>
+</tr>
+<tr>
+<td style="text-align:center">NR</td>
+<td style="text-align:center">已经读出的记录数 行号(从1开始)</td>
+</tr>
+<tr>
+<td style="text-align:center">OFS</td>
+<td style="text-align:center">输出字段的分隔符 默认是空格</td>
+</tr>
+<tr>
+<td style="text-align:center">ORS</td>
+<td style="text-align:center">输出记录的分隔符 默认是换行符</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
       <categories>
         <category>编程</category>
@@ -325,75 +408,128 @@ field2</code>指的是从file2中取出field2。字段编号自1开始，而非0
   <entry>
     <title>用MPI进行分布式内存编程</title>
     <url>/2020/07/25/MPI/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><center>前言</center></h1><p>&emsp;&emsp;<strong>分布式内存系统</strong>，顾名思义，是由多个处理器(CPU)组成，每个处理器可以位于不同的计算机上，并且都有各自私有的内存。<br>&emsp;&emsp;<strong>MPI</strong>(Message-Passing Interface)，是运行在分布式计算机系统上的并行应用程序所使用的最流行的通信协议。它不是一种新的语言，它定义了可以被C、C++和Fortran程序调用的函数库。<br>&emsp;&emsp;在消息传递程序<sup><a href="#fn_1" id="reffn_1">1</a></sup>中， 运行在一个 核 - 内存 对上的程序统称为一个进程。两个进程可以通过调用函数来进行通信：一个进程调用发送函数，一个进程调用接受函数，该通信方式的实现即为MPI。<br><a id="more"></a></p>
-<blockquote id="fn_1">
-<sup>1</sup>. 使用消息传递来对分布式内存系统进行编程所得到的程序。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
-</blockquote>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a><center>基础</center></h1><h2 id="编译执行"><a href="#编译执行" class="headerlink" title="编译执行"></a>编译执行</h2><h3 id="使用mpicc命令来编译程序2"><a href="#使用mpicc命令来编译程序2" class="headerlink" title="使用mpicc命令来编译程序2"></a>使用mpicc命令来编译程序<sup><a href="#fn_2" id="reffn_2">2</a></sup></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpicc -g -Wall -o mpi_exec mpi_exec.c</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h1><center>前言</center></h1>
+<p>  <strong>分布式内存系统</strong>，顾名思义，是由多个处理器(CPU)组成，每个处理器可以位于不同的计算机上，并且都有各自私有的内存。<br>
+  <strong>MPI</strong>(Message-Passing Interface)，是运行在分布式计算机系统上的并行应用程序所使用的最流行的通信协议。它不是一种新的语言，它定义了可以被C、C++和Fortran程序调用的函数库。<br>
+  在消息传递程序<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>中， 运行在一个 核 - 内存 对上的程序统称为一个进程。两个进程可以通过调用函数来进行通信：一个进程调用发送函数，一个进程调用接受函数，该通信方式的实现即为MPI。</p>
+<a id="more"></a>
+<h1><center>基础</center></h1>
+<h2 id="编译执行"><a class="header-anchor" href="#编译执行">¶</a>编译执行</h2>
+<h3 id="使用mpicc命令来编译程序"><a class="header-anchor" href="#使用mpicc命令来编译程序">¶</a>使用mpicc命令来编译程序<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpicc -g -Wall -o mpi_exec mpi_exec.c</span><br></pre></td></tr></table></figure>
 <ul>
 <li>mpicc是C语言编译器的wrapper script。</li>
 <li><code>$</code>：shell提示符</li>
 <li><code>-g</code>：需要对程序进行gdb调试则加上该选项</li>
 <li><code>-Wall</code>：产生警告信息</li>
-<li><code>-o</code>：后接产生的可执行文件的名称<blockquote id="fn_2">
-<sup>2</sup>. 我们假定使用GNU C编译器。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> &#8617;</a>
-</blockquote>
-</li>
+<li><code>-o</code>：后接产生的可执行文件的名称</li>
 </ul>
-<h3 id="使用mpiexec命令启动程序"><a href="#使用mpiexec命令启动程序" class="headerlink" title="使用mpiexec命令启动程序"></a>使用mpiexec命令启动程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpiexec -n &lt;number of processes&gt; ./mpi_exec</span><br></pre></td></tr></table></figure>
+<h3 id="使用mpiexec命令启动程序"><a class="header-anchor" href="#使用mpiexec命令启动程序">¶</a>使用mpiexec命令启动程序</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mpiexec -n &lt;number of processes&gt; ./mpi_exec</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>-n &lt;number of processes&gt;</code>：告诉系统启动\<number of processes \>个<mpi_exec>程序的实例，进程运行后，MPI保证进程间可以相互通信。</li>
+<li><code>-n &lt;number of processes&gt;</code>：告诉系统启动&lt;number of processes &gt;个&lt;mpi_exec&gt;程序的实例，进程运行后，MPI保证进程间可以相互通信。</li>
 </ul>
-<h2 id="基本函数"><a href="#基本函数" class="headerlink" title="基本函数"></a>基本函数</h2><h3 id="MPI-Init和MPI-Finalize"><a href="#MPI-Init和MPI-Finalize" class="headerlink" title="MPI_Init和MPI_Finalize"></a>MPI_Init和MPI_Finalize</h3><h4 id="MPI-Init"><a href="#MPI-Init" class="headerlink" title="MPI_Init()"></a>MPI_Init()</h4><ul>
-<li>告知MPI系统进行所有必要的初始化设置，即并行环境初始化<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Init</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* argc_p         <span class="comment">/* in/out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">char</span>*** argv_p      <span class="comment">/* in/out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="基本函数"><a class="header-anchor" href="#基本函数">¶</a>基本函数</h2>
+<h3 id="MPI-Init和MPI-Finalize"><a class="header-anchor" href="#MPI-Init和MPI-Finalize">¶</a>MPI_Init和MPI_Finalize</h3>
+<h4 id="MPI-Init"><a class="header-anchor" href="#MPI-Init">¶</a>MPI_Init()</h4>
+<ul>
+<li>告知MPI系统进行所有必要的初始化设置，即并行环境初始化</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Init</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* argc_p         <span class="comment">/* in/out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">char</span>*** argv_p      <span class="comment">/* in/out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
 <ol>
-<li>参数 $argc&#92;_p$ 和 $argv&#92;_p$ 是指向 $main$ 主函数的参数 $argc$ 和 $argv$ 的指针。(不使用这些参数时，设置为 $NULL$ 即可)</li>
+<li>参数 $argc\_p$ 和 $argv\_p$ 是指向 $main$ 主函数的参数 $argc$ 和 $argv$ 的指针。(不使用这些参数时，设置为 $NULL$ 即可)</li>
 <li><code>MPI_Init</code> 函数返回一个 $int$ 型的错误码，通常情况下我们忽略这些错误码。</li>
-<li>在程序调用 <code>MPI_Init</code> 之前，不应该调用其它MPI函数。(除 <code>MPI_Initialized</code> 函数<sup><a href="#fn_3" id="reffn_3">3</a></sup>)<blockquote id="fn_3">
-<sup>3</sup>. <code>int MPI_Initialized(int* flag)</code>：用来检测MPI系统是否已经初始化，若已调用 <code>MPI_Init</code> 或 <code>MPI_Init_thread</code>，flag置为 true, 否则置为 false。<a href="#reffn_3" title="Jump back to footnote [3] in the text."> &#8617;</a>
-</blockquote>
-<h4 id="MPI-Finalize"><a href="#MPI-Finalize" class="headerlink" title="MPI_Finalize"></a>MPI_Finalize</h4></li>
+<li>在程序调用 <code>MPI_Init</code> 之前，不应该调用其它MPI函数。(除 <code>MPI_Initialized</code> 函数<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>)</li>
 </ol>
-</li>
-<li>告知MPI系统MPI已经使用完毕，为MPI分配的资源可以释放<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Finalize</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<h4 id="MPI-Finalize"><a class="header-anchor" href="#MPI-Finalize">¶</a>MPI_Finalize</h4>
+<ul>
+<li>告知MPI系统MPI已经使用完毕，为MPI分配的资源可以释放</li>
 </ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Finalize</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>退出MPI系统，所有进程正常退出都必须调用该函数。</li>
-<li>串行代码仍可在主进程上运行，但是不可以再调用任何MPI函数。<h4 id="标准MPI程序框架"><a href="#标准MPI程序框架" class="headerlink" title="标准MPI程序框架"></a>标准MPI程序框架</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">/* No MPI calls before this */</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line">    ......</span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="comment">/*  No MPI calls after this */</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="MPI-Comm-size和MPI-Comm-rank"><a href="#MPI-Comm-size和MPI-Comm-rank" class="headerlink" title="MPI_Comm_size和MPI_Comm_rank"></a>MPI_Comm_size和MPI_Comm_rank</h3><h4 id="通信子"><a href="#通信子" class="headerlink" title="通信子"></a>通信子</h4></li>
+<li>串行代码仍可在主进程上运行，但是不可以再调用任何MPI函数。</li>
 </ol>
+<h4 id="标准MPI程序框架"><a class="header-anchor" href="#标准MPI程序框架">¶</a>标准MPI程序框架</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">/* No MPI calls before this */</span></span><br><span class="line">    MPI_Init(&amp;argc, &amp;argv);</span><br><span class="line">    ......</span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="comment">/*  No MPI calls after this */</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="MPI-Comm-size和MPI-Comm-rank"><a class="header-anchor" href="#MPI-Comm-size和MPI-Comm-rank">¶</a>MPI_Comm_size和MPI_Comm_rank</h3>
+<h4 id="通信子"><a class="header-anchor" href="#通信子">¶</a>通信子</h4>
 <ul>
 <li>MPI中， communicator指一组可以互相发送消息的进程集合。</li>
-<li><code>MPI_Init</code>的一个初始化设置即：  <pre><code>   在用户启动程序时，定义由用户启动的所有进程所组成的通信子，该通信子为 : `MPI_COMM_WORLD`。
-</code></pre></li>
-<li>MPI为通信子定义了一种特殊的类型：<code>MPI_Comm</code><h4 id="MPI-Comm-size"><a href="#MPI-Comm-size" class="headerlink" title="MPI_Comm_size"></a>MPI_Comm_size</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* comm_sz_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></li>
-<li>获得通信子<code>comm</code>中的进程数，并存在<code>comm_sz_p</code>中。<h4 id="MPI-Comm-rank"><a href="#MPI-Comm-rank" class="headerlink" title="MPI_Comm_rank"></a>MPI_Comm_rank</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* my_rank_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li><code>MPI_Init</code>的一个初始化设置即：<br>
+在用户启动程序时，定义由用户启动的所有进程所组成的通信子，该通信子为 : <code>MPI_COMM_WORLD</code>。</li>
+<li>MPI为通信子定义了一种特殊的类型：<code>MPI_Comm</code></li>
+</ul>
+<h4 id="MPI-Comm-size"><a class="header-anchor" href="#MPI-Comm-size">¶</a>MPI_Comm_size</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* comm_sz_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得通信子<code>comm</code>中的进程数，并存在<code>comm_sz_p</code>中。</li>
+</ul>
+<h4 id="MPI-Comm-rank"><a class="header-anchor" href="#MPI-Comm-rank">¶</a>MPI_Comm_rank</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Comm_size</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm comm      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>* my_rank_p     <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
 <li>获取正在调用的进程在通信子中的进程号，并存在<code>my_rank_p</code>中。</li>
 </ul>
-<h3 id="MPI-Send和MPI-Recv"><a href="#MPI-Send和MPI-Recv" class="headerlink" title="MPI_Send和MPI_Recv"></a>MPI_Send和MPI_Recv</h3><h4 id="SPMD程序"><a href="#SPMD程序" class="headerlink" title="SPMD程序"></a>SPMD程序</h4><p>&emsp;&emsp;通常来说，MPI程序会运行多个进程。为了实现并行程序，我们会编写单个MPI程序，让不同进程产生不同的动作。让进程按照它们的进程号来匹配程序分支，该方法称为单程序多数据流(Simple Program Multiple Data)。</p>
+<h3 id="MPI-Send和MPI-Recv"><a class="header-anchor" href="#MPI-Send和MPI-Recv">¶</a>MPI_Send和MPI_Recv</h3>
+<h4 id="SPMD程序"><a class="header-anchor" href="#SPMD程序">¶</a>SPMD程序</h4>
+<p>  通常来说，MPI程序会运行多个进程。为了实现并行程序，我们会编写单个MPI程序，让不同进程产生不同的动作。让进程按照它们的进程号来匹配程序分支，该方法称为单程序多数据流(Simple Program Multiple Data)。</p>
 <ul>
-<li>下面的程序即通过使用 if-else 语句实现SPMD。<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* File name: hello.c</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;    /* For strlen */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;       /* For MPI functions, etc */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_STRING 100</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> greeting[MAX_STRING];</span><br><span class="line">    <span class="keyword">int</span> comm_sz;    <span class="comment">/* Number of processes */</span></span><br><span class="line">    <span class="keyword">int</span> my_rank;    <span class="comment">/* My process rank */</span></span><br><span class="line">    </span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(my_rank != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(greeting, <span class="string">"Greetings from process %d of %d!"</span>, my_rank, comm_sz);</span><br><span class="line">        MPI_Send(greeting, <span class="built_in">strlen</span>(greeting)+<span class="number">1</span>, MPI_CHAR, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Greetings from process %d of %d!\n"</span>, my_rank, comm_sz);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> q=<span class="number">1</span>; q&lt;comm_sz; q++)&#123;</span><br><span class="line">            MPI_Recv(greeting, MAX_STRING, MPI_CHAR, q, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, greeting);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   <span class="comment">/* main */</span></span><br></pre></td></tr></table></figure></li>
-<li>编译运行<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mpicc -g -Wall -o hello hello.c</span><br><span class="line">mpiexec -n 4 .&#x2F;hello</span><br></pre></td></tr></table></figure></li>
-<li>运行结果<br><img src="hello.png" alt=""></li>
+<li>下面的程序即通过使用 if-else 语句实现SPMD。</li>
 </ul>
-<h4 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h4><p>&emsp;&emsp;在上述程序中，我们可以发现除了0号进程外，其余的进程都使用<code>sprintf</code>函数生成了一条要发送给0号进程的消息，并使用<code>MPI_Send</code>将消息发送给0号进程。同时，0号进程也使用<code>MPI_Recv</code>接受消息，并用<code>printf</code>函数将消息打印出。<br>&emsp;&emsp;0号进程使用for循环依次接受来自 $1\rightarrow comm&#92;_sz-1$ 号进程发送来的消息。</p>
-<h4 id="MPI-Send"><a href="#MPI-Send" class="headerlink" title="MPI_Send"></a><span id="jump2">MPI_Send</span></h4><ul>
-<li>进程间发送消息<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Send</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p      <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           dest           <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag            <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator   <span class="comment">/* in */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
-&emsp;参数解析<br><code>msg_buf_p</code>：指向包含发送消息内容的内存块的指针<br><code>msg_size</code>：发送的消息的个数<br><code>msg_type</code>：发送消息的数据类型<br><code>dest</code>：目的进程号<br><code>tag</code>：消息标签，接受方需要有相同标签才能接受消息<br><code>communicator</code>：通信子，表示在该通信组内传输消息</li>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* File name: hello.c</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;    /* For strlen */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt;       /* For MPI functions, etc */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_STRING 100</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> greeting[MAX_STRING];</span><br><span class="line">    <span class="keyword">int</span> comm_sz;    <span class="comment">/* Number of processes */</span></span><br><span class="line">    <span class="keyword">int</span> my_rank;    <span class="comment">/* My process rank */</span></span><br><span class="line">    </span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(my_rank != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(greeting, <span class="string">"Greetings from process %d of %d!"</span>, my_rank, comm_sz);</span><br><span class="line">        MPI_Send(greeting, <span class="built_in">strlen</span>(greeting)+<span class="number">1</span>, MPI_CHAR, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Greetings from process %d of %d!\n"</span>, my_rank, comm_sz);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> q=<span class="number">1</span>; q&lt;comm_sz; q++)&#123;</span><br><span class="line">            MPI_Recv(greeting, MAX_STRING, MPI_CHAR, q, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, greeting);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   <span class="comment">/* main */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译运行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mpicc -g -Wall -o hello hello.c</span><br><span class="line">mpiexec -n 4 .&#x2F;hello</span><br></pre></td></tr></table></figure>
+<ul>
+<li>运行结果<br>
+<img src="hello.png" alt=""></li>
+</ul>
+<h4 id="通信"><a class="header-anchor" href="#通信">¶</a>通信</h4>
+<p>  在上述程序中，我们可以发现除了0号进程外，其余的进程都使用<code>sprintf</code>函数生成了一条要发送给0号进程的消息，并使用<code>MPI_Send</code>将消息发送给0号进程。同时，0号进程也使用<code>MPI_Recv</code>接受消息，并用<code>printf</code>函数将消息打印出。<br>
+  0号进程使用for循环依次接受来自 $1\rightarrow comm\_sz-1$ 号进程发送来的消息。</p>
+<h4 id="span-id-jump2-MPI-Send-span"><a class="header-anchor" href="#span-id-jump2-MPI-Send-span">¶</a><span id="jump2">MPI_Send</span></h4>
+<ul>
+<li>进程间发送消息</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Send</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p      <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type       <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           dest           <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag            <span class="comment">/* in */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator   <span class="comment">/* in */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<p> 参数解析<br>
+<code>msg_buf_p</code>：指向包含发送消息内容的内存块的指针<br>
+<code>msg_size</code>：发送的消息的个数<br>
+<code>msg_type</code>：发送消息的数据类型<br>
+<code>dest</code>：目的进程号<br>
+<code>tag</code>：消息标签，接受方需要有相同标签才能接受消息<br>
+<code>communicator</code>：通信子，表示在该通信组内传输消息</p>
+<ul>
 <li>由于C语言中的数据类型不能作为参数传递给函数，MPI定义了一个特殊的类型：<a href="#jump1">MPI_Datatype</a>，用于参数msg_type。</li>
-<li><code>msg_size</code>和<code>msh_type</code>指定了发送的数据量，对于<code>MPI_CHAR</code>，因为C语言中字符串结束符为<code>&#39;\0&#39;</code>，所以<code>msg_size</code>为<code>strlen(greeting)+1</code>。</li>
+<li><code>msg_size</code>和<code>msh_type</code>指定了发送的数据量，对于<code>MPI_CHAR</code>，因为C语言中字符串结束符为<code>'\0'</code>，所以<code>msg_size</code>为<code>strlen(greeting)+1</code>。</li>
 </ul>
-<h4 id="MPI-Recv"><a href="#MPI-Recv" class="headerlink" title="MPI_Recv"></a>MPI_Recv</h4><ul>
-<li>接受消息<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Recv</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p     <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           source        <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag           <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*   status_p      <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
-&emsp;参数解析<br><code>msg_buf_p</code>：指向接受信息的内存块<br><code>msg_size</code>：指定内存中要存储对象的个数<br><code>msg_type</code>：待存储对象的类型<br><code>source</code>：接收的消息的源进程号<br><code>tag</code>：消息标签，和发送方的tag值相同时才能接受该消息<br><code>communicator</code>：通信子，表示在该通信组内传输消息<br><code>status_p</code>：消息状态。接受函数返回后，将在这个参数指示的变量中存储实际接受消息的状态，包括<code>MPI_SOURCE</code>、<code>MPI_TAG</code>、<code>MPI_ERROR</code></li>
-<li>接受到的数据量可以通过函数<code>MPI_Get_count</code>得到<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Get_count</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*    status_p <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype   type     <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>*           count_p  <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
-<h4 id="关于MPI-Send和MPI-Recv"><a href="#关于MPI-Send和MPI-Recv" class="headerlink" title="关于MPI_Send和MPI_Recv"></a>关于MPI_Send和MPI_Recv</h4></li>
+<h4 id="MPI-Recv"><a class="header-anchor" href="#MPI-Recv">¶</a>MPI_Recv</h4>
+<ul>
+<li>接受消息</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Recv</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*         msg_buf_p     <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           msg_size      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype  msg_type      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           source        <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>           tag           <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm      communicator  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*   status_p      <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<p> 参数解析<br>
+<code>msg_buf_p</code>：指向接受信息的内存块<br>
+<code>msg_size</code>：指定内存中要存储对象的个数<br>
+<code>msg_type</code>：待存储对象的类型<br>
+<code>source</code>：接收的消息的源进程号<br>
+<code>tag</code>：消息标签，和发送方的tag值相同时才能接受该消息<br>
+<code>communicator</code>：通信子，表示在该通信组内传输消息<br>
+<code>status_p</code>：消息状态。接受函数返回后，将在这个参数指示的变量中存储实际接受消息的状态，包括<code>MPI_SOURCE</code>、<code>MPI_TAG</code>、<code>MPI_ERROR</code></p>
+<ul>
+<li>接受到的数据量可以通过函数<code>MPI_Get_count</code>得到</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Get_count</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Status*    status_p <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype   type     <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>*           count_p  <span class="comment">/* out */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="关于MPI-Send和MPI-Recv"><a class="header-anchor" href="#关于MPI-Send和MPI-Recv">¶</a>关于MPI_Send和MPI_Recv</h4>
+<ul>
 <li>在<code>MPI_Send</code>发送一条消息后，该消息会被放入到缓冲区中，此时系统会出现阻塞，只有当缓冲区可以重新使用时，才会返回<code>MPI_Send</code>的调用。 当消息被<strong>发送至匹配的接受缓冲区</strong>或者<strong>被拷贝至一个中间系统缓冲区</strong>时，发送数据的缓冲区会被释放。</li>
 <li>对于<code>MPI_Recv</code>，在接受消息的时候，系统会产生阻塞，直到接受到一条匹配的消息。 如果一个进程试图接受消息，但是没有匹配的消息，那么进程就会被永远阻塞在那里，即<strong>进程悬挂</strong>。</li>
 <li>MPI要求消息是<strong>不可超越的</strong>。进程发送多条消息给其它进程时，要确保发送消息的现后顺序，只有当前消息发送成功后才能继续发送下一消息。</li>
 <li>如果<code>MPI_Send</code>发生阻塞，且没有相匹配的接受，那么发送进程会悬挂起来；若被缓冲，但没有匹配的接受，那么消息将丢失。</li>
 </ul>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="MPI-Datatype"><a href="#MPI-Datatype" class="headerlink" title="MPI_Datatype"></a><span id="jump1"><a href="#jump2">MPI_Datatype</a></span></h3><div class="table-container">
+<h2 id="补充"><a class="header-anchor" href="#补充">¶</a>补充</h2>
+<h3 id="span-id-jump1-MPI-Datatype-span"><a class="header-anchor" href="#span-id-jump1-MPI-Datatype-span">¶</a><span id="jump1"><a href="#jump2">MPI_Datatype</a></span></h3>
 <table>
 <thead>
 <tr>
@@ -456,55 +592,93 @@ field2</code>指的是从file2中取出field2。字段编号自1开始，而非0
 </tr>
 <tr>
 <td style="text-align:center">MPI_PACKED</td>
+<td style="text-align:center"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a><center>进阶</center></h1><h2 id="用MPI来实现梯形积分法"><a href="#用MPI来实现梯形积分法" class="headerlink" title="用MPI来实现梯形积分法"></a>用MPI来实现梯形积分法</h2><h3 id="梯形积分法"><a href="#梯形积分法" class="headerlink" title="梯形积分法"></a>梯形积分法</h3><ul>
-<li>我们将通过编写程序来实现数值积分中的梯形积分法<br><img src="trapezoidal_rule.png" alt=""><br>&emsp;&emsp;如上图所示，梯形积分法可以估计函数 $y=f(x)$ 的图像中，两条垂直线与 $x$ 轴之间的区域大小。我们将x轴上的区间划分为$n$个等长子区间，然后估计介于函数图像及每个子区间内的梯形区域的面积。<br>&emsp;&emsp;那么梯形区域的面积为:<script type="math/tex; mode=display">Area\ of\ one\ trapezoid = \frac{h}{2}[f(x_i)+f(x_i+1)]</script>&emsp;&emsp;每个子区间的长度为:<script type="math/tex; mode=display">h\ =\ \frac{b-a}{n}</script>&emsp;&emsp;我们划分的子区间的端点为:<script type="math/tex; mode=display">x_0=a,\ x_1=a+h,\ x_2=a+2h,\ \dots,\ x_{n-1}=a+(n-1)h,\ x_n=b</script>&emsp;&emsp;梯形面积和为:<script type="math/tex; mode=display">Sum\ of\ trapezoid\ areas = h[f(x_0)/2+f(x_1)+\dots+f(x_{n-1})+f(x_n)/2]</script>&emsp;&emsp;综上，串行程序伪代码如下所示:<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Input: a, b, n */</span></span><br><span class="line">h = (b-a)/n;</span><br><span class="line">approx = (f(a) + f(b))/<span class="number">2.0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;n; i++)&#123;</span><br><span class="line">    x_i = a + i*h;</span><br><span class="line">    approx+=f(x_i);</span><br><span class="line">&#125;</span><br><span class="line">approx = h*approx;</span><br></pre></td></tr></table></figure>
-<h3 id="并行化梯形积分法"><a href="#并行化梯形积分法" class="headerlink" title="并行化梯形积分法"></a>并行化梯形积分法</h3>&emsp;&emsp;我们将会使用下列四个基本步骤去设计一个并行程序：<br>&emsp;1. Partition problem solution into tasks<br>&emsp;2. Identify communication channels between tasks<br>&emsp;3. Aggregate tasks into composite tasks<br>&emsp;4. Map composite tasks to cores</li>
+<h1><center>进阶</center></h1>
+<h2 id="用MPI来实现梯形积分法"><a class="header-anchor" href="#用MPI来实现梯形积分法">¶</a>用MPI来实现梯形积分法</h2>
+<h3 id="梯形积分法"><a class="header-anchor" href="#梯形积分法">¶</a>梯形积分法</h3>
+<ul>
+<li>我们将通过编写程序来实现数值积分中的梯形积分法<br>
+<img src="trapezoidal_rule.png" alt=""><br>
+  如上图所示，梯形积分法可以估计函数 $y=f(x)$ 的图像中，两条垂直线与 $x$ 轴之间的区域大小。我们将x轴上的区间划分为$n$个等长子区间，然后估计介于函数图像及每个子区间内的梯形区域的面积。<br>
+  那么梯形区域的面积为:<br>
+$$Area\ of\ one\ trapezoid = \frac{h}{2}[f(x_i)+f(x_i+1)] $$<br>
+  每个子区间的长度为:<br>
+$$h\ =\ \frac{b-a}{n}$$<br>
+  我们划分的子区间的端点为:<br>
+$$x_0=a,\ x_1=a+h,\ x_2=a+2h,\ \dots,\ x_{n-1}=a+(n-1)h,\ x_n=b$$<br>
+  梯形面积和为:<br>
+$$Sum\ of\ trapezoid\ areas = h[f(x_0)/2+f(x_1)+\dots+f(x_{n-1})+f(x_n)/2]$$<br>
+  综上，串行程序伪代码如下所示:</li>
 </ul>
-<p>&emsp;&emsp;在任务划分阶段，我们会将梯形积分法划分为两个任务</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Input: a, b, n */</span></span><br><span class="line">h = (b-a)/n;</span><br><span class="line">approx = (f(a) + f(b))/<span class="number">2.0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;n; i++)&#123;</span><br><span class="line">    x_i = a + i*h;</span><br><span class="line">    approx+=f(x_i);</span><br><span class="line">&#125;</span><br><span class="line">approx = h*approx;</span><br></pre></td></tr></table></figure>
+<h3 id="并行化梯形积分法"><a class="header-anchor" href="#并行化梯形积分法">¶</a>并行化梯形积分法</h3>
+<p>  我们将会使用下列四个基本步骤去设计一个并行程序：<br>
+ 1. Partition problem solution into tasks<br>
+ 2. Identify communication channels between tasks<br>
+ 3. Aggregate tasks into composite tasks<br>
+ 4. Map composite tasks to cores</p>
+<p>  在任务划分阶段，我们会将梯形积分法划分为两个任务</p>
 <ul>
 <li>获取单个矩形区域面积</li>
 <li>计算这些区域的面积和</li>
 </ul>
-<p>&emsp;&emsp;我们假设将区间 $[a,b]$ 分成 $comm&#92;_sz$ 个子区间。</p>
-<p>&emsp;&emsp;并行程序伪代码如下所示：<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 全局变量，在所有进程内有效</span></span><br><span class="line"><span class="comment">* n: 划分的区间总数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Get a, b, n;</span><br><span class="line">h = (b-a)/n;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 每一个子进程都会有各自独立的内存空间</span></span><br><span class="line"><span class="comment">* 下列的变量为局部变量，在每个子进程内都会有实例，只在其进程内有效</span></span><br><span class="line"><span class="comment">* comm_sz：并行程序会产生comm_sz个进程来执行该计算任务</span></span><br><span class="line"><span class="comment">* my_rank: 正在调用的进程的进程号</span></span><br><span class="line"><span class="comment">* local_n: 当前进程的区间号，用来指示区间的上下界local_a和local_b</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">local_n = n/comm_sz;</span><br><span class="line">local_a = a + my_rank*local_n*h;</span><br><span class="line">local_b = local_a + local_n*h;</span><br><span class="line">local_integral = Trap(local_a, local_b, local_n, h);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (my_rank != <span class="number">0</span>) &#123;</span><br><span class="line">    Send local_integral to <span class="built_in">process</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123; <span class="comment">/* my_rank==0 */</span></span><br><span class="line">    total_integral = local_integral;</span><br><span class="line">    <span class="keyword">for</span> (proc=<span class="number">1</span>; proc &lt; comm_sz; proc++) &#123;</span><br><span class="line">        Receive local_integral from proc;</span><br><span class="line">        total_integral += local_integral;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><ul>
-<li>代码如下所示：<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* File name: Trapezoidal_Rule.c</span></span><br><span class="line"><span class="comment">* Description: 计算函数f(x) = x^2在区间[0,3]的积分</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt; /* For MPI functions, etc */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> pos         <span class="comment">/* in */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> pos*pos;</span><br><span class="line">&#125;   <span class="comment">/* f */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Trap</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> left_endpt    <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> right_endpt <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    trap_count     <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> base_len     <span class="comment">/* in */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> estimate, x;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    estimate = (f(left_endpt) + f(right_endpt))/<span class="number">2.0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>; i&lt;trap_count; i++) &#123;</span><br><span class="line">        x = left_endpt + i*base_len;</span><br><span class="line">        estimate += f(x);</span><br><span class="line">    &#125;</span><br><span class="line">    estimate = estimate*base_len;</span><br><span class="line">    <span class="keyword">return</span> estimate;</span><br><span class="line">&#125;   <span class="comment">/* Trap */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> my_rank, comm_sz, n = <span class="number">1024</span>, local_n;</span><br><span class="line">    <span class="keyword">double</span> a = <span class="number">0.0</span>, b = <span class="number">3.0</span>, h, local_a, local_b;</span><br><span class="line">    <span class="keyword">double</span> local_int, total_int;</span><br><span class="line">    <span class="keyword">int</span> source;</span><br><span class="line"></span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * Function Name : MPI_Get_data</span></span><br><span class="line"><span class="comment">    * Parameter : my_rank, comm_sz, a, b, n</span></span><br><span class="line"><span class="comment">    * Description : Get the value of a,b,n input by user </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">//MPI_Get_data(my_rank, comm_sz, &amp;a, &amp;b, &amp;n);</span></span><br><span class="line"></span><br><span class="line">    h = (b-a)/n;          <span class="comment">/* h is the same for all processes */</span></span><br><span class="line">    local_n = n/comm_sz;  <span class="comment">/* local_n is the number of trapezoids */</span></span><br><span class="line"></span><br><span class="line">    local_a = a + my_rank*local_n*h;</span><br><span class="line">    local_b = local_a + local_n*h;</span><br><span class="line">    local_int = Trap(local_a, local_b, local_n, h);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank != <span class="number">0</span>) &#123;</span><br><span class="line">        MPI_Send(&amp;local_int, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        total_int = local_int;</span><br><span class="line">        <span class="keyword">for</span> (source=<span class="number">1</span>; source&lt;comm_sz; source++) &#123;</span><br><span class="line">            MPI_Recv(&amp;local_int, <span class="number">1</span>, MPI_DOUBLE, source, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">            total_int += local_int;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"With n = %d trapezoids, our estimate "</span>, n);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"of the integral from %f to %f = %.15e\n"</span>, a, b, total_int);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   <span class="comment">/* main */</span></span><br></pre></td></tr></table></figure></li>
-<li><p>编译运行</p>
+<p>  我们假设将区间 $[a,b]$ 分成 $comm\_sz$ 个子区间。</p>
+<p>  并行程序伪代码如下所示：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 全局变量，在所有进程内有效</span></span><br><span class="line"><span class="comment">* n: 划分的区间总数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Get a, b, n;</span><br><span class="line">h = (b-a)/n;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 每一个子进程都会有各自独立的内存空间</span></span><br><span class="line"><span class="comment">* 下列的变量为局部变量，在每个子进程内都会有实例，只在其进程内有效</span></span><br><span class="line"><span class="comment">* comm_sz：并行程序会产生comm_sz个进程来执行该计算任务</span></span><br><span class="line"><span class="comment">* my_rank: 正在调用的进程的进程号</span></span><br><span class="line"><span class="comment">* local_n: 当前进程的区间号，用来指示区间的上下界local_a和local_b</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">local_n = n/comm_sz;</span><br><span class="line">local_a = a + my_rank*local_n*h;</span><br><span class="line">local_b = local_a + local_n*h;</span><br><span class="line">local_integral = Trap(local_a, local_b, local_n, h);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (my_rank != <span class="number">0</span>) &#123;</span><br><span class="line">    Send local_integral to <span class="built_in">process</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123; <span class="comment">/* my_rank==0 */</span></span><br><span class="line">    total_integral = local_integral;</span><br><span class="line">    <span class="keyword">for</span> (proc=<span class="number">1</span>; proc &lt; comm_sz; proc++) &#123;</span><br><span class="line">        Receive local_integral from proc;</span><br><span class="line">        total_integral += local_integral;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="具体实现"><a class="header-anchor" href="#具体实现">¶</a>具体实现</h3>
+<ul>
+<li>代码如下所示：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* File name: Trapezoidal_Rule.c</span></span><br><span class="line"><span class="comment">* Description: 计算函数f(x) = x^2在区间[0,3]的积分</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mpi.h&gt; /* For MPI functions, etc */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> pos         <span class="comment">/* in */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> pos*pos;</span><br><span class="line">&#125;   <span class="comment">/* f */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Trap</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> left_endpt    <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> right_endpt <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    trap_count     <span class="comment">/* in */</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> base_len     <span class="comment">/* in */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> estimate, x;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    estimate = (f(left_endpt) + f(right_endpt))/<span class="number">2.0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">1</span>; i&lt;trap_count; i++) &#123;</span><br><span class="line">        x = left_endpt + i*base_len;</span><br><span class="line">        estimate += f(x);</span><br><span class="line">    &#125;</span><br><span class="line">    estimate = estimate*base_len;</span><br><span class="line">    <span class="keyword">return</span> estimate;</span><br><span class="line">&#125;   <span class="comment">/* Trap */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> my_rank, comm_sz, n = <span class="number">1024</span>, local_n;</span><br><span class="line">    <span class="keyword">double</span> a = <span class="number">0.0</span>, b = <span class="number">3.0</span>, h, local_a, local_b;</span><br><span class="line">    <span class="keyword">double</span> local_int, total_int;</span><br><span class="line">    <span class="keyword">int</span> source;</span><br><span class="line"></span><br><span class="line">    MPI_Init(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_rank);</span><br><span class="line">    MPI_Comm_size(MPI_COMM_WORLD, &amp;comm_sz);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * Function Name : MPI_Get_data</span></span><br><span class="line"><span class="comment">    * Parameter : my_rank, comm_sz, a, b, n</span></span><br><span class="line"><span class="comment">    * Description : Get the value of a,b,n input by user </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">//MPI_Get_data(my_rank, comm_sz, &amp;a, &amp;b, &amp;n);</span></span><br><span class="line"></span><br><span class="line">    h = (b-a)/n;          <span class="comment">/* h is the same for all processes */</span></span><br><span class="line">    local_n = n/comm_sz;  <span class="comment">/* local_n is the number of trapezoids */</span></span><br><span class="line"></span><br><span class="line">    local_a = a + my_rank*local_n*h;</span><br><span class="line">    local_b = local_a + local_n*h;</span><br><span class="line">    local_int = Trap(local_a, local_b, local_n, h);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank != <span class="number">0</span>) &#123;</span><br><span class="line">        MPI_Send(&amp;local_int, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        total_int = local_int;</span><br><span class="line">        <span class="keyword">for</span> (source=<span class="number">1</span>; source&lt;comm_sz; source++) &#123;</span><br><span class="line">            MPI_Recv(&amp;local_int, <span class="number">1</span>, MPI_DOUBLE, source, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">            total_int += local_int;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"With n = %d trapezoids, our estimate "</span>, n);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"of the integral from %f to %f = %.15e\n"</span>, a, b, total_int);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    MPI_Finalize();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;   <span class="comment">/* main */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译运行</li>
+</ul>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">mpicc -g -Wall -o Trapezoidal_Rule Trapezoidal_Rule.c</span><br><span class="line">mpiexec -n <span class="number">8</span> ./Trapezoidal_Rule</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行结果<br><img src="result.png" alt=""></p>
-</li>
+<ul>
+<li>运行结果<br>
+<img src="result.png" alt=""></li>
 </ul>
-<h2 id="I-O处理"><a href="#I-O处理" class="headerlink" title="I/O处理"></a>I/O处理</h2><h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><ul>
+<h2 id="I-O处理"><a class="header-anchor" href="#I-O处理">¶</a>I/O处理</h2>
+<h3 id="输出"><a class="header-anchor" href="#输出">¶</a>输出</h3>
+<ul>
 <li>在上面程序中，我们可以看出，在终端显示的结果由0号进程将其写到标准输出<code>stdout</code>(通过调用<code>printf</code>输出结果)。</li>
-<li>在MPI标准中，没有指定哪些进程可以访问哪些 $I/O$ 设备，但是几乎所有的MPI实现都允许<code>MPI_COMM_WORLD</code>里的所有进程都能访问标准输出<code>stdout</code>和标准错误输出<code>stderr</code>。<sup><a href="#fn_4" id="reffn_4">4</a></sup></li>
+<li>在MPI标准中，没有指定哪些进程可以访问哪些 $I/O$ 设备，但是几乎所有的MPI实现都允许<code>MPI_COMM_WORLD</code>里的所有进程都能访问标准输出<code>stdout</code>和标准错误输出<code>stderr</code>。<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup></li>
 <li>MPI进程会互相竞争共享资源，以取得对共享输出设备、标准输出<code>stdout</code>的访问。这种竞争会导致不确定性，每次运行的实际输出可能会不一样。(当你有多个进程需要输出时，其输出顺序是无法预测的，会是乱序，更有可能某个进程的输出被另一个进程打断。)</li>
-<li>为了防止进程之间竞争的出现，我们通常会让0号进程执行输出操作，其它进程将消息发送至0号进程，0号进程接受后按照进程顺序输出结果。<blockquote id="fn_4">
-<sup>4</sup>. <code>stdout</code>和<code>stderr</code>都是将信息输出到终端，但是如果使用输出重定向<code>&gt;</code>，则会发现<code>stdout</code>将结果打印到指定文件中，而<code>stderr</code>会将结果输出在屏幕。(在linux中，可以通过<code>&gt;</code>(<code>stdout</code>)和<code>2&gt;</code>(<code>stderr</code>)指定其输出位置)  通常<code>stdout</code>是行缓冲，其输出会放在一个buffer中，当换行的时候才会输出到屏幕；<code>stderr</code>是无缓冲的，会直接输出。<a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#8617;</a>
-</blockquote>
-</li>
+<li>为了防止进程之间竞争的出现，我们通常会让0号进程执行输出操作，其它进程将消息发送至0号进程，0号进程接受后按照进程顺序输出结果。</li>
 </ul>
-<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><ul>
+<h3 id="输入"><a class="header-anchor" href="#输入">¶</a>输入</h3>
+<ul>
 <li>大部分的MPI实现，只允许<code>MPI_COMM_WORLD</code>中的0号进程访问标准输入<code>stdin</code>。</li>
 <li>所以我们会在程序中，根据进程号来选取转移分支。0号进程负责读入数据，并将数据发送给其它进程。</li>
-<li>针对上述梯形积分的问题，编写输入函数<code>MPI_Get_data</code>来获取用户输出的 $a$, $b$, $n$的值。<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MPI_Get_data</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    my_rank <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    comm_sz <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *a_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *b_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    *n_p    <span class="comment">/* out */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dest;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Enter a, b, n:\n"</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%lf %lf %lf, a_p, b_p, n_p"</span>);</span><br><span class="line">        <span class="keyword">for</span>(dest=<span class="number">1</span>; dest&lt;comm_sz; dest++)&#123;</span><br><span class="line">            MPI_Send(a_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(b_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(n_p, <span class="number">1</span>, MPI_INT, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        MPI_Recv(a_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(b_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(n_p, <span class="number">1</span>, MPI_INT, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   <span class="comment">/* MPI_Get_data */</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>针对上述梯形积分的问题，编写输入函数<code>MPI_Get_data</code>来获取用户输出的 $a$, $b$, $n$的值。</li>
 </ul>
-<h2 id="聚合通信"><a href="#聚合通信" class="headerlink" title="聚合通信"></a>聚合通信</h2><p>&emsp;&emsp;在MPI中，涉及通信子内所有进程的通信函数称为<strong>聚合通信</strong>。为区分聚合通信和类似<code>MPI_Send</code>和<code>MPI_Recv</code>这样的函数，<code>MPI_Send</code>和<code>MPI_Recv</code>通常称为<strong>点对点通信</strong>(point-to-point communication)。<br>&emsp;&emsp;上述梯形积分法的程序，我们可以发现每个进程完成了各自部分的积分任务后，0号进程要做 $comm&#92;_sz-1$ 次计算任务。我们可以对此做出优化。</p>
-<h3 id="树形结构通信"><a href="#树形结构通信" class="headerlink" title="树形结构通信"></a>树形结构通信</h3><p><img src="tree1.png" alt=""><br>&emsp;&emsp;如图所示，对于上述梯形积分法，我们可以通过如图所示的树形结构通信来减少0号进程的工作量。<br>&emsp;&emsp;树形结构通信能让程序并行化更加完全，但是对于程序的通信要求更加苛刻，需要我们实现不同进程之间的配对。值得开心的是，MPI实现了对于全局求和等操作。</p>
-<h3 id="MPI-Reduce"><a href="#MPI-Reduce" class="headerlink" title="MPI_Reduce"></a>MPI_Reduce</h3><p>&emsp;&emsp;全局求和只是MPI聚合通信中的一个特殊例子，MPI对这种全局函数进行概括，我们可以使用单个函数<code>MPI_Reduce</code>来完成不同的全局运算操作。<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Reduce</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        input_data_p  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        output_data_p <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          count         <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype datatype      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Op       <span class="keyword">operator</span>      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          dest_process  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm     comm          <span class="comment">/* in  */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MPI_Get_data</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    my_rank <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    comm_sz <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *a_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">double</span> *b_p    <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span>    *n_p    <span class="comment">/* out */</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dest;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (my_rank == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Enter a, b, n:\n"</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%lf %lf %lf, a_p, b_p, n_p"</span>);</span><br><span class="line">        <span class="keyword">for</span>(dest=<span class="number">1</span>; dest&lt;comm_sz; dest++)&#123;</span><br><span class="line">            MPI_Send(a_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(b_p, <span class="number">1</span>, MPI_DOUBLE, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">            MPI_Send(n_p, <span class="number">1</span>, MPI_INT, dest, <span class="number">0</span>, MPI_COMM_WORLD);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        MPI_Recv(a_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(b_p, <span class="number">1</span>, MPI_DOUBLE, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">        MPI_Recv(n_p, <span class="number">1</span>, MPI_INT, <span class="number">0</span>, <span class="number">0</span>, MPI_COMM_WORLD, MPI_STATUS_IGNORE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   <span class="comment">/* MPI_Get_data */</span></span><br></pre></td></tr></table></figure>
+<h2 id="聚合通信"><a class="header-anchor" href="#聚合通信">¶</a>聚合通信</h2>
+<p>  在MPI中，涉及通信子内所有进程的通信函数称为<strong>聚合通信</strong>。为区分聚合通信和类似<code>MPI_Send</code>和<code>MPI_Recv</code>这样的函数，<code>MPI_Send</code>和<code>MPI_Recv</code>通常称为<strong>点对点通信</strong>(point-to-point communication)。<br>
+  上述梯形积分法的程序，我们可以发现每个进程完成了各自部分的积分任务后，0号进程要做 $comm\_sz-1$ 次计算任务。我们可以对此做出优化。</p>
+<h3 id="树形结构通信"><a class="header-anchor" href="#树形结构通信">¶</a>树形结构通信</h3>
+<p><img src="tree1.png" alt=""><br>
+  如图所示，对于上述梯形积分法，我们可以通过如图所示的树形结构通信来减少0号进程的工作量。<br>
+  树形结构通信能让程序并行化更加完全，但是对于程序的通信要求更加苛刻，需要我们实现不同进程之间的配对。值得开心的是，MPI实现了对于全局求和等操作。</p>
+<h3 id="MPI-Reduce"><a class="header-anchor" href="#MPI-Reduce">¶</a>MPI_Reduce</h3>
+<p>  全局求和只是MPI聚合通信中的一个特殊例子，MPI对这种全局函数进行概括，我们可以使用单个函数<code>MPI_Reduce</code>来完成不同的全局运算操作。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MPI_Reduce</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        input_data_p  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span>*        output_data_p <span class="comment">/* out */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          count         <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Datatype datatype      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Op       <span class="keyword">operator</span>      <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">int</span>          dest_process  <span class="comment">/* in  */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    MPI_Comm     comm          <span class="comment">/* in  */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>参数解析</li>
 </ul>
-<p><code>input_data_p</code>: 待计算数据的指针<br><code>output_data_p</code>: 存储计算结果数据的指针<br><code>count</code>: 输入数据的个数<br><code>datatype</code>: 数据的类型<br><code>operator</code>: 运算符，MPI预定义类型MPI_Op<br><code>dest_process</code>: 计算结果存储的目的进程号<br><code>comm</code>: 通信域</p>
+<p><code>input_data_p</code>: 待计算数据的指针<br>
+<code>output_data_p</code>: 存储计算结果数据的指针<br>
+<code>count</code>: 输入数据的个数<br>
+<code>datatype</code>: 数据的类型<br>
+<code>operator</code>: 运算符，MPI预定义类型MPI_Op<br>
+<code>dest_process</code>: 计算结果存储的目的进程号<br>
+<code>comm</code>: 通信域</p>
 <ul>
 <li>MPI_Op类型</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -560,10 +734,24 @@ field2</code>指的是从file2中取出field2。字段编号自1开始，而非0
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>理解<br>&emsp;&emsp;程序会对所有进程中的<code>input_data_p</code>执行<code>operator</code>操作，并将结果存储在<code>dest</code>号进程的<code>output_data_p</code>中。<br>&emsp;&emsp;</li>
+<li>理解<br>
+  程序会对所有进程中的<code>input_data_p</code>执行<code>operator</code>操作，并将结果存储在<code>dest</code>号进程的<code>output_data_p</code>中。<br>
+  </li>
 </ul>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>使用消息传递来对分布式内存系统进行编程所得到的程序。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>我们假定使用GNU C编译器。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><code>int MPI_Initialized(int* flag)</code>：用来检测MPI系统是否已经初始化，若已调用 <code>MPI_Init</code> 或 <code>MPI_Init_thread</code>，flag置为 true, 否则置为 false。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><code>stdout</code>和<code>stderr</code>都是将信息输出到终端，但是如果使用输出重定向<code>&gt;</code>，则会发现<code>stdout</code>将结果打印到指定文件中，而<code>stderr</code>会将结果输出在屏幕。(在linux中，可以通过<code>&gt;</code>(<code>stdout</code>)和<code>2&gt;</code>(<code>stderr</code>)指定其输出位置)  通常<code>stdout</code>是行缓冲，其输出会放在一个buffer中，当换行的时候才会输出到屏幕；<code>stderr</code>是无缓冲的，会直接输出。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 ]]></content>
       <categories>
         <category>并行计算</category>
