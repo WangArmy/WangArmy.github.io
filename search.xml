@@ -344,7 +344,7 @@ field2</code>指的是从file2中取出field2。字段编号自1开始，而非0
 <td style="text-align:center">当前记录</td>
 </tr>
 <tr>
-<td style="text-align:center">&#36;~&#36;n</td>
+<td style="text-align:center">&#36;0~&#36;n</td>
 <td style="text-align:center">当前记录的第n个字段</td>
 </tr>
 <tr>
